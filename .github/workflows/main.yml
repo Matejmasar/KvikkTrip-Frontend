@@ -94,7 +94,10 @@ jobs:
           # Disabling shallow clone improves report relevancy
           fetch-depth: 0
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master 
+        uses: sonarsource/sonarcloud-github-action@master
+        with:
+          organization: kvikktrip
+          projectKey: kvikktrip_kvikktrip-frontend
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
