@@ -95,12 +95,10 @@ jobs:
           fetch-depth: 0
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
-        with:
-          organization: kvikktrip
-          projectKey: kvikktrip_kvikktrip-frontend
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORGANIZATION: kvikktrip
-          SONAR_PROJECT_KEY: kvikktrip_kvikktrip-frontend
-
+        with:
+          args: >
+            -Dsonar.organization=kvikktrip
+            -Dsonar.projectKey=kvikktrip_kvikktrip-frontend
