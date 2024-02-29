@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       # Install Node.js 
       - name: Use Node.js 20
@@ -29,10 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup
     steps:
-      - name: Set working directory
-        run: cd ~
-      - name: List
-        run: ls
       - name: Run ESLint
         run: npm run lint 
 
