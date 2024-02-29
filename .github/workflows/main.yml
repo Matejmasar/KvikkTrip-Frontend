@@ -13,8 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
 
       # Install Node.js 
       - name: Use Node.js 20
@@ -26,11 +24,29 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # Cache dependencies
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
   # Run ESLint
   eslint:
     runs-on: ubuntu-latest
     needs: setup
     steps:
+      - uses: actions/checkout@v4
+
+      # Use cached dependencies
+      - name: Use cached dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+
       - name: Run ESLint
         run: npm run lint 
 
