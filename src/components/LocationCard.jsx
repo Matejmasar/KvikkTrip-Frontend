@@ -1,8 +1,8 @@
 import TravelLocation from "./TravelLocation.js";
 import PropTypes from "prop-types";
-import './Location_Card.css';
+import './LocationCard.css';
 
-const Location_Card = (props) => {
+const LocationCard = (props) => {
     const { location } = props;
 
     const handleClick = () => {
@@ -18,8 +18,8 @@ const Location_Card = (props) => {
     )
 }
 
-Location_Card.propTypes = {
+LocationCard.propTypes = {
     location: PropTypes.instanceOf(TravelLocation).isRequired
 };
 
-export default Location_Card;
+export default LocationCard;

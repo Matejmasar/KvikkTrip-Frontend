@@ -1,6 +1,8 @@
 import TravelLocation from "../components/TravelLocation.js";
-import Location_Card from "../components/Location_Card.jsx";
+import LocationCard from "../components/LocationCard.jsx";
 import './FrontPage.css';
+import LocationSearch from "../components/LocationSearch.jsx";
+import AppHeader from "../components/AppHeader.jsx";
 
 const FrontPage = () => {
     const myLocation = new TravelLocation("Bergen", "Norway", "Rain");
@@ -8,14 +10,15 @@ const FrontPage = () => {
 
     return (
         <div>
-            <h1 className="header">This is the front page :)</h1>
+            <AppHeader/>
+            <LocationSearch/>
             <div className="cards">
-                <Location_Card location={myLocation}></Location_Card>
-                <Location_Card location={myLocation}></Location_Card>
-                <Location_Card location={myLocation}></Location_Card>
-                <Location_Card location={myLocation}></Location_Card>
-                <Location_Card location={myLocation}></Location_Card>
-                <Location_Card location={myLocation}></Location_Card>
+                <LocationCard location={myLocation}></LocationCard>
+                <LocationCard location={myLocation}></LocationCard>
+                <LocationCard location={myLocation}></LocationCard>
+                <LocationCard location={myLocation}></LocationCard>
+                <LocationCard location={myLocation}></LocationCard>
+                <LocationCard location={myLocation}></LocationCard>
             </div>
         </div>
     )
