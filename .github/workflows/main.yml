@@ -8,6 +8,9 @@ on:
     branches: 
       - main
       - develop
+  push:
+    branches:
+      - main
 
 jobs:
   # Install dependencies
