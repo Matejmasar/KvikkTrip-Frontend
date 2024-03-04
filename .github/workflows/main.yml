@@ -82,7 +82,7 @@ jobs:
          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
          
       - name: Run tests
-        run: npm test
+        run: npm test --coverage
         
   # Job to run SonarQube analysis
   sonarcloud:
