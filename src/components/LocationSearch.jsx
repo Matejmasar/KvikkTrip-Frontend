@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {LocalizationProvider} from "@mui/x-date-pickers";
-import {DatePicker} from "@mui/x-date-pickers";
+import {LocalizationProvider, DatePicker} from "@mui/x-date-pickers";
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './LocationSearch.css';

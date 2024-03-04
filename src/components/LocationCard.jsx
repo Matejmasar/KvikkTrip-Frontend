@@ -10,7 +10,7 @@ const LocationCard = (props) => {
     }
 
     return (
-        <div className="card" onClick={handleClick}>
+        <div className="card" onClick={handleClick} onKeyDown={handleClick} role="button">
             <h2>{location.name}</h2>
             <div>{location.country}</div>
             <div>{location.weather}</div>
