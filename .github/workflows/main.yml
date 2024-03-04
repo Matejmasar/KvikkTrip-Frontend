@@ -108,3 +108,4 @@ jobs:
             -Dsonar.organization=kvikktrip
             -Dsonar.projectKey=kvikktrip_kvikktrip-frontend
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+            -Dsonar.sources=src/
