@@ -1,9 +1,6 @@
-name: Frontend static analysis pipeline
+name: Static Analysis
 
 on:
-  workflow_run:
-    workflows: [Frontend testing pipeline]
-    types: [completed]
   # Run for pull requests (excluding drafts)
   pull_request:
     types: [ opened, reopened]
@@ -19,7 +16,6 @@ jobs:
   # Job to run SonarQube analysis
   sonarcloud:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v4
         with:
