@@ -1,16 +1,8 @@
-name: Frontend pipeline
+name: Frontend testing pipeline
 
 on:
-  # Run for pull requests (excluding drafts)
-  pull_request:
-    types: [ opened, reopened]
-    # Run on branches develop and main
-    branches: 
-      - main
-      - develop
-  push:
-    branches:
-      - main
+  # All pushes need to be tested
+  push
 
 jobs:
   # Install dependencies
@@ -88,24 +80,3 @@ jobs:
          
       - name: Run tests
         run: npm test
-        
-  # Job to run SonarQube analysis
-  sonarcloud:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          # Disabling shallow clone improves report relevancy
-          fetch-depth: 0
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.organization=kvikktrip
-            -Dsonar.projectKey=kvikktrip_kvikktrip-frontend
-            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
-            -Dsonar.sources=src/
