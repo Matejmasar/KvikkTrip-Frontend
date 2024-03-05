@@ -1,4 +1,4 @@
-name: Frontend testing pipeline
+name: Testing
 
 on:
   # All pushes need to be tested
