@@ -5,7 +5,8 @@ import LocationSearch from "../components/LocationSearch.jsx";
 import AppHeader from "../components/AppHeader.jsx";
 
 const FrontPage = () => {
-    const myLocation = new TravelLocation("Bergen", "Norway", "Rain");
+    const picture = '/ny 1.png';
+    const myLocation = new TravelLocation("Bergen", picture,"Norway", "Rain", '$$');
 
 
     return (

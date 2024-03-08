@@ -11,7 +11,7 @@ const LocationSearch = () => {
     const [returnDate, setReturnDate] = useState(dayjs().format('DD/MM/YYYY'));
 
     const handleSearch = () => {
-        console.log("Departure: " + departureDate + " ReturnDate: " + returnDate)
+        console.log("Departure: " + departureDate + " ReturnDate: " + returnDate);
     }
 
     return (
