@@ -1,8 +1,13 @@
 .cards {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, auto);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
     gap: 20px;
     justify-items: center;
     align-items: center;
+}
+
+.frontPageContainer {
+    display: grid;
+    grid-template-rows: auto 0.9fr 1fr auto;
 }

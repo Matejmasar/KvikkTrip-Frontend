@@ -3,13 +3,15 @@ import LocationCard from "../components/LocationCard.jsx";
 import './FrontPage.css';
 import LocationSearch from "../components/LocationSearch.jsx";
 import AppHeader from "../components/AppHeader.jsx";
+import EndBar from "../components/EndBar.jsx";
 
 const FrontPage = () => {
-    const myLocation = new TravelLocation("Bergen", "Norway", "Rain");
+    const picture = '/ny 1.png';
+    const myLocation = new TravelLocation("Bergen", picture,"Norway", "Rain", '$$');
 
 
     return (
-        <div>
+        <div className='frontPageContainer'>
             <AppHeader/>
             <LocationSearch/>
             <div className="cards">
@@ -20,6 +22,7 @@ const FrontPage = () => {
                 <LocationCard location={myLocation}></LocationCard>
                 <LocationCard location={myLocation}></LocationCard>
             </div>
+            <EndBar/>
         </div>
     )
 }

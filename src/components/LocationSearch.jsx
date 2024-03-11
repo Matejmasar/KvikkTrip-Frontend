@@ -11,7 +11,7 @@ const LocationSearch = () => {
     const [returnDate, setReturnDate] = useState(dayjs().format('DD/MM/YYYY'));
 
     const handleSearch = () => {
-        console.log("Departure: " + departureDate + " ReturnDate: " + returnDate)
+        console.log("Departure: " + departureDate + " ReturnDate: " + returnDate);
     }
 
     return (
@@ -22,15 +22,15 @@ const LocationSearch = () => {
             </div>
             <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker label="Choose departure date" onChange={
+                    <DatePicker label="Choose departure date" sx={{ backgroundColor: 'white'}} onChange={
                         (date) => setDepartureDate(date.format('DD/MM/YYYY'))}
                     />
-                    <DatePicker label="Choose return date" onChange={
+                    <DatePicker label="Choose return date" sx={{ backgroundColor: 'white'}} onChange={
                         (date) => setReturnDate(date.format('DD/MM/YYYY'))
                     }/>
                 </LocalizationProvider>
             </div>
-            <button onClick={handleSearch}>Search</button>
+            <input type='button' onClick={handleSearch} value='Search'></input>
         </div>
     )
 }

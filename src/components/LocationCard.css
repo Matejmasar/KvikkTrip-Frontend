@@ -1,11 +1,52 @@
 .card {
-    background-color: lightgray;
-    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr) 0.5fr;
+
+    background-color: white;
+    padding: 10px;
     border-radius: 10px;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     transition: background-color 0.3s;
 
     &:hover {
-        background-color: darkgray;
+        background-color: lightgray;
     }
+}
+
+.locPicture {
+    grid-row: span 2;
+    grid-column: span 2;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.locPicture img {
+    object-fit: cover;
+}
+
+.locName {
+    grid-row: 1;
+    grid-column: 3;
+    padding: 5px;
+}
+
+.countryName {
+    grid-row: 2;
+    grid-column: 3;
+}
+
+.weather {
+    grid-row: 3;
+    grid-column: 2;
+}
+
+.price {
+    grid-row: 3;
+    grid-column: 1;
 }
