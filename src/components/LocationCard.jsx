@@ -11,9 +11,13 @@ const LocationCard = (props) => {
 
     return (
         <div className="card" onClick={handleClick} onKeyDown={handleClick} role="button">
-            <h2>{location.name}</h2>
-            <div>{location.country}</div>
-            <div>{location.weather}</div>
+            <h2 className='locName'>{location.name}</h2>
+            <div className='locPicture'>
+                <img src={location.picture} alt={''}/>
+            </div>
+            <div className='countryName'>{location.country}</div>
+            <div className='weather'>{location.weather}</div>
+            <div className='price'>{location.price}</div>
         </div>
     )
 }

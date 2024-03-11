@@ -1,3 +1,6 @@
 body {
     background-color: #13A1CD;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
 }
