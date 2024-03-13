@@ -1,0 +1,44 @@
+.footerContainer1 {
+    background-color: #6BC1DC;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    margin-top: 20px;
+    max-height: 110px;
+}
+
+.footerContainer2 {
+    background-color: #116A86;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+    max-height: 90px;
+}
+
+.NavList {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+.NavItem {
+    margin-right: 20px;
+    color: black;
+    cursor: pointer;
+
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+.NavLink {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
