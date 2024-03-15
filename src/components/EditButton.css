@@ -1,5 +1,5 @@
 .edit-button {
-    background-color: #00BFFF; /* This is the DeepSkyBlue color, adjust the hex code to match the exact color you want */
+    background-color: #00BFFF;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -12,5 +12,5 @@
 }
 
 .edit-button:hover {
-    background-color: #009ACD; /* Slightly darker blue on hover */
+    background-color: #009ACD;
 }
