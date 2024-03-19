@@ -8,9 +8,11 @@ import EditButton from '../components/EditButton.jsx'; //
 
 const UserPage = () => {
     const myLocation = new TravelLocation("Bergen", null,"Norway", "Rain", '$$');
+
     const handleEditUserInfoClick = () => {
         console.log('Edit user info');
     };
+
     const handleEditTagClick = () => {
         console.log('Edit tags');
     };
