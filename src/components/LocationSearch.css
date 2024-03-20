@@ -11,6 +11,8 @@
     grid-template-columns: repeat(2, 1fr);
     grid-column: 1;
     grid-row: 1;
+
+    
 }
 
 .inputField {

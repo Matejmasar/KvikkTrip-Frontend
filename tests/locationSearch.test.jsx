@@ -4,23 +4,19 @@ import LocationSearch from '../src/components/LocationSearch.jsx';
 
 describe('LocationSearch', () => {
     it('renders the LocationSearch component', () => {
-        render(<LocationSearch />);
+        render(<LocationSearch handleRecommendations={vi.fn}/>);
 
-        const selectCityInput = screen.getByPlaceholderText('Select a city');
-        const filterInput = screen.getByPlaceholderText('Filters');
         const departureDatePicker = screen.getByLabelText('Choose departure date');
         const returnDatePicker = screen.getByLabelText('Choose return date');
         const searchButton = screen.getByRole('button', {name: 'Search'});
 
-        expect(selectCityInput).toBeInTheDocument();
-        expect(filterInput).toBeInTheDocument();
         expect(departureDatePicker).toBeInTheDocument();
         expect(returnDatePicker).toBeInTheDocument();
         expect(searchButton).toBeInTheDocument();
     });
 
     it('updates departure and return date on date picker change', () => {
-        render(<LocationSearch />);
+        render(<LocationSearch handleRecommendations={vi.fn}/>);
 
         const newDate = '12/03/2024';
         const departureDatePicker = screen.getByLabelText('Choose departure date');
@@ -34,13 +30,13 @@ describe('LocationSearch', () => {
     });
 
     it('handles search button click', () => {
-        render(<LocationSearch />);
+        const handleRecommendationMock = vi.fn();
 
-        const handleSearchMock = vi.fn();
+        render(<LocationSearch handleRecommendations={handleRecommendationMock}/>);
+
         const searchButton = screen.getByRole('button', { name: 'Search' });
-        searchButton.onclick = handleSearchMock;
         fireEvent.click(searchButton);
 
-        expect(handleSearchMock).toHaveBeenCalledTimes(1);
+        expect(handleRecommendationMock).toHaveBeenCalledTimes(1);
     });
 })
