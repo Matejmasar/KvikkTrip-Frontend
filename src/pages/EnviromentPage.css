@@ -1,13 +1,8 @@
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: stretch;
-    
-}
-
 .gridItem {
     padding: 20px;
     margin: 20px;
     background-color: rgba(255, 255, 255, .5);
     border-radius: 25px;
+    text-align: center;
+    min-height: 100vh;
 }
