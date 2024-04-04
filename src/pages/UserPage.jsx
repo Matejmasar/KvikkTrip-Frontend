@@ -5,6 +5,7 @@ import TravelLocation from "../components/TravelLocation.js";
 import LocationCard from "../components/LocationCard.jsx";
 import EditButton from '../components/EditButton.jsx';
 import {useEffect, useState} from "react";
+import {getTags, getLocations} from '../services/apiservice.js';
 
 
 const UserPage = () => {
@@ -19,22 +20,24 @@ const UserPage = () => {
     const [preferences, setPreferences] = useState([]);
 
     useEffect(() => {
-        fetch('/api/tags')
-            .then(response => response.json())
-            .then(data => setPreferences(data))
-            .catch(error => console.error('Error fetching tags:', error));
+        const fetchTags = async () => {
+            const tags = await getTags();
+            setPreferences(tags);
+        };
+
+        fetchTags().catch(error => console.error('Error fetching tags:', error));
     }, []);
 
     const [locs, setLocs] = useState([]);
 
     useEffect(() => {
-        fetch('/api/locations')
-            .then(response => response.json())
-            .then(data => {
-                const transformedLocations = data.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
-                setLocs(transformedLocations);
-            })
-            .catch(error => console.error('Error fetching locations:', error));
+        const fetchLocations = async () => {
+            const locations = await getLocations();
+            const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
+            setLocs(transformedLocations);
+        };
+
+        fetchLocations().catch(error => console.error('Error fetching locations:', error));
     }, []);
 
 
