@@ -16,12 +16,12 @@ const UserPage = () => {
         console.log('Edit tags');
     };
 
-    const [tags, setTags] = useState([]);
+    const [preferences, setPreferences] = useState([]);
 
     useEffect(() => {
         fetch('/api/tags')
             .then(response => response.json())
-            .then(data => setTags(data))
+            .then(data => setPreferences(data))
             .catch(error => console.error('Error fetching tags:', error));
     }, []);
 
@@ -49,7 +49,7 @@ const UserPage = () => {
                     <EditButton onClick={handleEditUserInfoClick}/>
                     <h2>Personal preferences</h2>
                     <ul>
-                        {tags.map(tag => (
+                        {preferences.map(tag => (
                             <li key={tag.value}>{tag.label}</li>
                         ))}
                     </ul>

@@ -5,7 +5,7 @@ const EndBar = () => {
         <>
             <footer className="footerContainer1">
                 <ul className="NavList">
-                    <li className="NavItem"><a className="NavLink" href="#">ABOUT US</a></li>
+                    <li className="NavItem"><a className="NavLink" href="/aboutus">ABOUT US</a></li>
                     <li className="NavItem"><a className="NavLink" href="#">CUSTOMER SERVICE</a></li>
                     <li className="NavItem"><a className="NavLink" href="#">TRAVELING INFORMATION</a></li>
                 </ul>
