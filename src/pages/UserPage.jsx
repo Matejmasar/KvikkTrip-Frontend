@@ -17,6 +17,15 @@ const UserPage = () => {
         console.log('Edit tags');
     };
 
+    const [user, setUser] = useState([]);
+
+    useEffect(() => {
+        fetch('/api/user/3')
+            .then(response => response.json())
+            .then(data => setUser(data))
+            .catch(error => console.error('Error fetching user:', error));
+    }, []);
+
     const [preferences, setPreferences] = useState([]);
 
     useEffect(() => {
@@ -47,8 +56,8 @@ const UserPage = () => {
             <div className="grid-container">
                 <div className="gridItem" style={{marginRight: '10px'}}>
                     <h1 style={{ textAlign: 'center' }}>User info:</h1>
-                    <h3>Name: </h3>
-                    <h3>Email: </h3>
+                    <h3>Name: {user.name}</h3>
+                    <h3>Email: {user.email}</h3>
                     <EditButton onClick={handleEditUserInfoClick}/>
                     <h2>Personal preferences</h2>
                     <ul>
