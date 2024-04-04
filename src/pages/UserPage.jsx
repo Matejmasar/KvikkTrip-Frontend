@@ -42,7 +42,7 @@ const UserPage = () => {
         <>
             <AppHeader/>
             <div className="grid-container">
-                <div className="gridItem">
+                <div className="gridItem" style={{marginRight: '10px'}}>
                     <h1 style={{ textAlign: 'center' }}>User info:</h1>
                     <h3>Name: </h3>
                     <h3>Email: </h3>
@@ -55,7 +55,7 @@ const UserPage = () => {
                     </ul>
                     <EditButton onClick={handleEditTagClick}/>
                 </div>
-                <div className="gridItem">
+                <div className="gridItem" style={{marginLeft: '10px'}}>
                     <h1 style={{ textAlign: 'center' }}>Recent trips:</h1>
                     {locs.map((loc, index) => (
                         <LocationCard key={index} location={loc}></LocationCard>    
