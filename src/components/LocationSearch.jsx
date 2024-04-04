@@ -21,23 +21,17 @@ const LocationSearch = ({handleRecommendations}) => {
     const [locations, setLocations] = useState([]);
 
     useEffect( () => {
-        async function fetchTags() {
-            const result = await getTags();
-            setTags(result);
-        }
+        async function fetchResources() {
+            const tagResult = await getTags();
+            const locationResult = await getLocations();
 
-        async function fetchLocations() {
-            const result = await getLocations();
-            setLocations(result);
-        }
+            setTags(tagResult);
+            setLocations(locationResult);
 
-        async function getData() {
-            fetchTags();
-            fetchLocations();
             setLoading(false);
         }
 
-        getData();
+        fetchResources();
     }, []);
 
     const handleSearch = () => {
