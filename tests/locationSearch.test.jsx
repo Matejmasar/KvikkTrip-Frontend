@@ -2,6 +2,11 @@ import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import {vi} from 'vitest';
 import LocationSearch from '../src/components/LocationSearch.jsx';
 
+vi.mock("../src/services/apiservice.js", () => ({
+    getTags: vi.fn(() => ["tag1", "tag2", "tag3"]),
+    getLocations: vi.fn(() => ["loc1"])
+}));
+
 describe('LocationSearch', () => {
     const handleRecommendationMock = vi.fn();
     beforeEach(async () => {
