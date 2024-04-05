@@ -1,10 +1,17 @@
 import TravelLocation from "../components/TravelLocation.js";
 
-export const getRecommendations = async () => {
+export const getRecommendations = async (filters) => {
     const picture = '/ny 1.png';
-    const myLocation = new TravelLocation("Bergen", picture,"Norway", "Rain", '$$');
 
-    return [myLocation, myLocation, myLocation, myLocation, myLocation, myLocation];
+    let results = [];
+    if (filters.length > 0) {
+        //filter the locations returned using the filters
+    } else {
+        results = await getLocations();
+    }
+    results = results.map(result => new TravelLocation(result.name, picture, result.country, "Sun", "$$"));
+
+    return results;
 }
 
 export const getTags = async () => {
@@ -14,14 +21,7 @@ export const getTags = async () => {
         const response = await fetch(apiUrl);
 
         if (response.status === 200) {
-            let data = await response.json();
-            data = data.map(function(item) {
-                return {
-                    value: item.label,
-                    label: item.label,
-                };
-            });
-            console.log(data);
+            const data = await response.json();
             return data;
         }
     } catch (error) {
@@ -36,14 +36,7 @@ export const getLocations = async () => {
         const response = await fetch(apiUrl);
 
         if (response.status === 200) {
-            let data = await response.json();
-            console.log(data);
-            data = data.map(function(item) {
-                return {
-                    value: item.name,
-                    label: item.name,
-                };
-            });
+            const data = await response.json();
             return data;
         }
     } catch (error) {
