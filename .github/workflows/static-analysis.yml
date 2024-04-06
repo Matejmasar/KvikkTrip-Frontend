@@ -28,7 +28,7 @@ jobs:
         with:
           name: coverage-report
           workflow: test.yml
-          path: coverage/lcov.info
+          path: coverage
           
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
