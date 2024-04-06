@@ -27,7 +27,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v3.1.4
         with:
           name: coverage-report
-          workflow: test.ym
+          workflow: test.yml
           path: coverage/lcov.info
           
       - name: SonarCloud Scan
