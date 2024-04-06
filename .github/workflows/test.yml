@@ -1,9 +1,6 @@
 name: Testing
 
-on:
-  # All pushes need to be tested
-  push
-
+on: push
 jobs:
   # Install dependencies
   setup:
