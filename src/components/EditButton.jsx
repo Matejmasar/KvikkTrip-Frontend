@@ -1,8 +1,8 @@
-import './EditButton.css'; // Make sure to create a corresponding CSS file
+import './EditButton.css';
 
-const EditButton = ({ onClick }) => {
+const EditButton = () => {
     return (
-        <button className="edit-button" onClick={onClick}>
+        <button className="edit-button">
             Edit
         </button>
     );

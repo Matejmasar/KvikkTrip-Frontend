@@ -5,7 +5,8 @@ import TravelLocation from "../components/TravelLocation.js";
 import LocationCard from "../components/LocationCard.jsx";
 import EditButton from '../components/EditButton.jsx';
 import {useEffect, useState} from "react";
-import {getTags, getPreferences, getLocations, getUser, updateUser} from '../services/apiservice.js';
+import {getTags, getLocations, getUser, updateUser} from '../services/apiservice.js';
+// import { getPreferences } from '../services/apiservice.js';
 
 
 const UserPage = () => {
