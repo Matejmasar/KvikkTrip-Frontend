@@ -1,0 +1,43 @@
+.register {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 50px;
+    border: 10px black;
+    border-radius: 20px;
+}
+
+.formcontainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.forminput {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+}
+
+.formlabel {
+    font-weight: bold;
+}
+
+.registerbuttons {
+    margin: 15px;
+}
+
+.registerbutton {
+    float: right;
+    height: 40px;
+    width: 80px;
+    font-size: 16px;
+    background-color: green;
+    border-radius: 5px;
+    border: none;
+}
+
+.loginlink {
+    float: right;
+}

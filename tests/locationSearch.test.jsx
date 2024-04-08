@@ -1,27 +1,33 @@
-import {fireEvent, render, screen} from "@testing-library/react";
+import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import {vi} from 'vitest';
 import LocationSearch from '../src/components/LocationSearch.jsx';
 
-describe('LocationSearch', () => {
-    it('renders the LocationSearch component', () => {
-        render(<LocationSearch />);
+vi.mock("../src/services/apiservice.js", () => ({
+    getTags: vi.fn(() => ["tag1", "tag2", "tag3"]),
+    getLocations: vi.fn(() => ["loc1"])
+}));
 
-        const selectCityInput = screen.getByPlaceholderText('Select a city');
-        const filterInput = screen.getByPlaceholderText('Filters');
+describe('LocationSearch', () => {
+    const handleRecommendationMock = vi.fn();
+    beforeEach(async () => {
+        render(<LocationSearch handleRecommendations={handleRecommendationMock}/>);
+        await waitFor(() => {
+            // eslint-disable-next-line jest/no-standalone-expect
+            expect(screen.queryByText('Loading...')).toBeNull();
+        });
+    });
+
+    it('renders the LocationSearch component', async () => {
         const departureDatePicker = screen.getByLabelText('Choose departure date');
         const returnDatePicker = screen.getByLabelText('Choose return date');
         const searchButton = screen.getByRole('button', {name: 'Search'});
 
-        expect(selectCityInput).toBeInTheDocument();
-        expect(filterInput).toBeInTheDocument();
         expect(departureDatePicker).toBeInTheDocument();
         expect(returnDatePicker).toBeInTheDocument();
         expect(searchButton).toBeInTheDocument();
     });
 
-    it('updates departure and return date on date picker change', () => {
-        render(<LocationSearch />);
-
+    it('updates departure and return date on date picker change', async () => {
         const newDate = '12/03/2024';
         const departureDatePicker = screen.getByLabelText('Choose departure date');
         const returnDatePicker = screen.getByLabelText('Choose return date');
@@ -33,14 +39,10 @@ describe('LocationSearch', () => {
         expect(returnDatePicker.value).toBe(newDate);
     });
 
-    it('handles search button click', () => {
-        render(<LocationSearch />);
-
-        const handleSearchMock = vi.fn();
+    it('handles search button click', async () => {
         const searchButton = screen.getByRole('button', { name: 'Search' });
-        searchButton.onclick = handleSearchMock;
         fireEvent.click(searchButton);
 
-        expect(handleSearchMock).toHaveBeenCalledTimes(1);
+        expect(handleRecommendationMock).toHaveBeenCalledTimes(1);
     });
 })

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -87,27 +87,35 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -115,23 +123,27 @@
 import PropTypes from "prop-types";
 import './LocationCard.css';
 &nbsp;
-const LocationCard = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>rops) =&gt; {</span>
-    const { location } = <span class="cstat-no" title="statement not covered" >props;</span>
+const LocationCard = (props) =&gt; {
+    const { location } = props;
 &nbsp;
-    const handleClick = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >        console.log("Clicked")</span>
+    const handleClick = () =&gt; {
+        console.log("Clicked")
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    return (
         &lt;div className="card" onClick={handleClick} onKeyDown={handleClick} role="button"&gt;
-            &lt;h2&gt;{location.name}&lt;/h2&gt;
-            &lt;div&gt;{location.country}&lt;/div&gt;
-            &lt;div&gt;{location.weather}&lt;/div&gt;
+            &lt;h2 className='locName'&gt;{location.name}&lt;/h2&gt;
+            &lt;div className='locPicture'&gt;
+                &lt;img src={location.picture} alt={''}/&gt;
+            &lt;/div&gt;
+            &lt;div className='countryName'&gt;{location.country}&lt;/div&gt;
+            &lt;div className='weather'&gt;{location.weather}&lt;/div&gt;
+            &lt;div className='price'&gt;{location.price}&lt;/div&gt;
         &lt;/div&gt;
     )
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >LocationCard.propTypes = {</span>
+LocationCard.propTypes = {
     location: PropTypes.instanceOf(TravelLocation).isRequired
 };
 &nbsp;
@@ -142,7 +154,7 @@ export default LocationCard;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-03-04T21:35:28.837Z
+                at 2024-04-08T09:08:44.356Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

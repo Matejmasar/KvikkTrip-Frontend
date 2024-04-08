@@ -2,12 +2,14 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, auto);
-    gap: 20px;
+    gap: 10px;
     justify-items: center;
     align-items: center;
 }
 
 .frontPageContainer {
     display: grid;
-    grid-template-rows: auto 0.9fr 1fr auto;
+    grid-template-rows: auto 0.4fr 1fr auto;
+
+    height: 90%;
 }

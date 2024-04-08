@@ -1,0 +1,55 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+  
+.page-content {
+    min-height: 100%;
+    margin-bottom: -80px;
+}
+  
+.page-content:after {
+    content: "";
+    display: block;
+    height: 80px;
+}
+  
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+  
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+  }
+  
+  .row a {
+    text-decoration: none;
+    color: white;
+    flex-grow: 1;
+    padding: 8px;
+    text-align: center;
+
+    &:hover {
+        text-decoration: underline;
+    }
+  }
+  
+.top-row a {
+    background-color: #6BC1DC;
+    color: black;
+    height: 40px;
+}
+  
+.bottom-row a {
+    background-color: #116A86;
+    color: black;
+    height: 20px;
+}

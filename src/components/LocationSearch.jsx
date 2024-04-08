@@ -1,24 +1,68 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {LocalizationProvider, DatePicker} from "@mui/x-date-pickers";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import Select from "react-select";
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './LocationSearch.css';
 import dayjs from "dayjs";
+import {getLocations, getTags} from "../services/apiservice.js";
+import PropTypes from "prop-types";
 
-const LocationSearch = () => {
+const LocationSearch = ({handleRecommendations}) => {
+    const [loading, setLoading] = useState(true);
+
     const [departureDate, setDepartureDate] = useState(dayjs().format('DD/MM/YYYY'));
     const [returnDate, setReturnDate] = useState(dayjs().format('DD/MM/YYYY'));
+    const [location, setLocation] = useState("");
+    const [filters, setFilters] = useState([]);
+
+    const [tags, setTags] = useState([]);
+    const [locations, setLocations] = useState([]);
+
+    useEffect( () => {
+        async function fetchResources() {
+            let tagResult = await getTags();
+            tagResult = tagResult.map(item => ({value: item.label, label: item.label}));
+
+            let locationResult = await getLocations();
+            locationResult = locationResult.map(item => ({value: item.name, label: item.name}));
+
+            setTags(tagResult);
+            setLocations(locationResult);
+
+            setLoading(false);
+        }
+
+        fetchResources();
+    }, []);
 
     const handleSearch = () => {
-        console.log("Departure: " + departureDate + " ReturnDate: " + returnDate);
+        handleRecommendations({departureDate, returnDate, location, filters});
+    }
+
+    if (loading) {
+        return <div>Loading...</div>
     }
 
     return (
         <div className="searchContainer">
             <div className="inputContainer">
-                <input type="text" name="SelectCity" placeholder="Select a city"/>
-                <input type="text" name="Filters" placeholder="Filters"/>
+                <Select
+                    name="locationSelect"
+                    placeholder="Choose location"
+                    defaultValue={location}
+                    onChange={setLocation}
+                    options={locations}
+                />
+                <Select
+                    name="filterSelect"
+                    placeholder="Choose filters"
+                    defaultValue={filters}
+                    isMulti
+                    onChange={setFilters}
+                    options={tags}
+                />
             </div>
             <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -34,5 +78,9 @@ const LocationSearch = () => {
         </div>
     )
 }
+
+LocationSearch.propTypes = {
+    handleRecommendations: PropTypes.func.isRequired,
+};
 
 export default LocationSearch;
