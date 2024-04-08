@@ -9,20 +9,21 @@ import {useEffect, useState} from "react";
 const FrontPage = () => {
     const [loading, setLoading] = useState(true);
     const [recommendations, setRecommendations] = useState([]);
-
-    const getLocations = async () => {
-        const result = await getRecommendations();
-        setRecommendations(result);
-        setLoading(false);
-    }
+    const [filters, setFilters] = useState([]);
 
     const handleSearch = async (data) => {
-        console.log(data);
+        let filterValues = data.filters.map(filter => filter.value);
+        setFilters(filterValues);
     }
 
     useEffect(() => {
-        getLocations();
-    }, []);
+        const handleRecommendations = async () => {
+            const results = await getRecommendations(filters);
+            setRecommendations(results);
+            setLoading(false);
+        }
+        handleRecommendations();
+    }, [filters]);
 
     if (loading) {
         return (<div>Loading...</div>)

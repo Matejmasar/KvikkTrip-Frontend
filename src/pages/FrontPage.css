@@ -9,5 +9,5 @@
 
 .frontPageContainer {
     display: grid;
-    grid-template-rows: auto 0.9fr 1fr auto;
+    grid-template-rows: auto 0.77fr 1fr auto;
 }
