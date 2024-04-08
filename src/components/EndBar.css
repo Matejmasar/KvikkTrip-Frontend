@@ -1,44 +1,55 @@
-.footerContainer1 {
-    background-color: #6BC1DC;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    margin-top: 20px;
-    max-height: 110px;
+body, html {
+    height: 100%;
+    margin: 0;
 }
-
-.footerContainer2 {
-    background-color: #116A86;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 20px;
-    max-height: 90px;
+  
+.page-content {
+    min-height: 100%;
+    margin-bottom: -80px;
 }
-
-.NavList {
-    list-style: none;
-    display: flex;
+  
+.page-content:after {
+    content: "";
+    display: block;
+    height: 80px;
+}
+  
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
     padding: 0;
     margin: 0;
 }
-
-.NavItem {
-    margin-right: 20px;
-    color: black;
-    cursor: pointer;
-
-    &:last-child {
-        margin-right: 0;
-    }
-}
-
-.NavLink {
+  
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+  }
+  
+  .row a {
     text-decoration: none;
-    color: inherit;
+    color: white;
+    flex-grow: 1;
+    padding: 8px;
+    text-align: center;
 
     &:hover {
         text-decoration: underline;
     }
+  }
+  
+.top-row a {
+    background-color: #6BC1DC;
+    color: black;
+    height: 40px;
+}
+  
+.bottom-row a {
+    background-color: #116A86;
+    color: black;
+    height: 20px;
 }
