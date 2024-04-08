@@ -5,7 +5,24 @@ export const getRecommendations = async (filters) => {
 
     let results = [];
     if (filters.length > 0) {
-        //filter the locations returned using the filters
+        const searchUrl = '/api/locations/search';
+        const requestOpts = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:  JSON.stringify({'tags': filters})
+        }
+        console.log(requestOpts);
+        try {
+            const response = await fetch(searchUrl, requestOpts);
+            if (response.status === 200) {
+                const data = await response.json();
+                results = data;
+            }
+        } catch (error) {
+            console.log(error);
+        }
     } else {
         results = await getLocations();
     }
