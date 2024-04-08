@@ -5,7 +5,7 @@ export const getRecommendations = async (filters) => {
 
     let results = [];
     if (filters.length > 0) {
-        const searchUrl = '/api/locations/search';
+        const searchUrl = 'https://kvikktrip-backend.onrender.com/locations/search';
         const requestOpts = {
             method: 'POST',
             headers: {
@@ -32,10 +32,10 @@ export const getRecommendations = async (filters) => {
 }
 
 export const getTags = async () => {
-    const apiUrl = `/api/tags`;
+    const apiUrl = `https://kvikktrip-backend.onrender.com/tags`;
 
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, {mode: "cors"});
 
         if (response.status === 200) {
             const data = await response.json();
@@ -47,7 +47,7 @@ export const getTags = async () => {
 }
 
 export const getLocations = async () => {
-    const apiUrl = `/api/locations`;
+    const apiUrl = `https://kvikktrip-backend.onrender.com/locations`;
 
     try {
         const response = await fetch(apiUrl);
@@ -62,7 +62,7 @@ export const getLocations = async () => {
 }
 
 export const getUser = async (id) => {
-    const apiUrl = `/api/user/${id}`;
+    const apiUrl = `https://kvikktrip-backend.onrender.com/user/${id}`;
 
     try {
         const response = await fetch(apiUrl);
@@ -77,7 +77,7 @@ export const getUser = async (id) => {
 }
 
 export const updateUser = async (userId, userData) => {
-    const apiUrl = `/api/user/${userId}`;
+    const apiUrl = `https://kvikktrip-backend.onrender.com/user/${userId}`;
     return fetch(apiUrl, {
         method: 'PUT',
         headers: {
@@ -88,7 +88,7 @@ export const updateUser = async (userId, userData) => {
 };
 
 export const getPreferences = async (id) => {
-    const apiUrl = `/api/user/preferences/${id}`;
+    const apiUrl = `https://kvikktrip-backend.onrender.com/user/preferences/${id}`;
 
     try {
         const response = await fetch(apiUrl);
