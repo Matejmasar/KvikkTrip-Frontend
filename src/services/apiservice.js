@@ -60,3 +60,44 @@ export const getLocations = async () => {
         console.log(error);
     }
 }
+
+export const getUser = async (id) => {
+    const apiUrl = `/api/user/${id}`;
+
+    try {
+        const response = await fetch(apiUrl);
+
+        if (response.status === 200) {
+            const data = await response.json();
+            return data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateUser = async (userId, userData) => {
+    const apiUrl = `/api/user/${userId}`;
+    return fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+    }).then(response => response.json());
+};
+
+export const getPreferences = async (id) => {
+    const apiUrl = `/api/user/preferences/${id}`;
+
+    try {
+        const response = await fetch(apiUrl);
+
+        if (response.status === 200) {
+            const data = await response.json();
+            return data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}

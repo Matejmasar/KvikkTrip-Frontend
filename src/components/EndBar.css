@@ -1,61 +1,55 @@
-html, body {
+body, html {
     height: 100%;
     margin: 0;
 }
-
+  
 .page-content {
-    min-height: calc(100% - 100px - 60px);
-    position: relative;
+    min-height: 100%;
+    margin-bottom: -80px;
 }
-
-.footerContainer1, .footerContainer2 {
-    position: absolute;
+  
+.page-content:after {
+    content: "";
+    display: block;
+    height: 80px;
+}
+  
+footer {
+    position: fixed;
     left: 0;
-    right: 0;
-}
-.footerContainer1 {
-    bottom: 40px;
-    background-color: #6BC1DC;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 10px;
-    margin-top: 20px;
-    height: 60px;
-}
-
-.footerContainer2 {
     bottom: 0;
-    background-color: #116A86;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 10px;
-    height: 40px;
-}
-
-.NavList {
-    list-style: none;
-    display: flex;
+    width: 100%;
     padding: 0;
     margin: 0;
 }
-
-.NavItem {
-    margin-right: 20px;
-    color: black;
-    cursor: pointer;
-
-    &:last-child {
-        margin-right: 0;
-    }
-}
-
-.NavLink {
+  
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+  }
+  
+  .row a {
     text-decoration: none;
-    color: inherit;
+    color: white;
+    flex-grow: 1;
+    padding: 8px;
+    text-align: center;
 
     &:hover {
         text-decoration: underline;
     }
+  }
+  
+.top-row a {
+    background-color: #6BC1DC;
+    color: black;
+    height: 40px;
+}
+  
+.bottom-row a {
+    background-color: #116A86;
+    color: black;
+    height: 20px;
 }
