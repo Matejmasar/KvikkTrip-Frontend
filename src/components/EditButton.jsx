@@ -1,8 +1,8 @@
 import './EditButton.css';
 
-const EditButton = () => {
+const EditButton = ({ onClick }) => {
     return (
-        <button className="edit-button">
+        <button className="edit-button" onClick={onClick}>
             Edit
         </button>
     );
