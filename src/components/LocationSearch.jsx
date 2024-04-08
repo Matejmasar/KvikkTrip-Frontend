@@ -22,8 +22,11 @@ const LocationSearch = ({handleRecommendations}) => {
 
     useEffect( () => {
         async function fetchResources() {
-            const tagResult = await getTags();
-            const locationResult = await getLocations();
+            let tagResult = await getTags();
+            tagResult = tagResult.map(item => ({value: item.label, label: item.label}));
+
+            let locationResult = await getLocations();
+            locationResult = locationResult.map(item => ({value: item.name, label: item.name}));
 
             setTags(tagResult);
             setLocations(locationResult);

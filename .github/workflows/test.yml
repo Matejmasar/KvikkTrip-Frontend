@@ -1,0 +1,86 @@
+name: Testing
+
+on: push
+jobs:
+  # Install dependencies
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Install Node.js 
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Install dependencies using npm
+      - name: Install dependencies
+        run: npm install
+
+      # Cache dependencies
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+  # Run ESLint
+  eslint:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+
+      # Use cached dependencies
+      - name: Use cached dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+
+      - name: Run ESLint
+        run: npm run lint 
+
+  # Build the project
+  build:
+    runs-on: ubuntu-latest
+    needs: [ setup, eslint ]
+    steps:
+      - uses: actions/checkout@v4
+
+       # Use cached dependencies
+      - name: Use cached dependencies
+        uses: actions/cache@v4
+        with:
+         path: node_modules
+         key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+         
+      - name: Build the project
+        run: npm run build
+
+  # Run unit tests
+  test:
+    runs-on: ubuntu-latest
+    needs: [ setup, build ]
+    steps:
+      - uses: actions/checkout@v4
+
+       # Use cached dependencies
+      - name: Use cached dependencies
+        uses: actions/cache@v4
+        with:
+         path: node_modules
+         key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+         
+      - name: Run tests
+        run: npm test
+     
+      # Upload coverage report as artifact
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: coverage-report
+          path: coverage/lcov.info
