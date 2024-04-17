@@ -10,9 +10,9 @@ import {getTags, getLocations, getUser, updateUser} from '../services/apiservice
 
 
 const UserPage = () => {
-    const [user, setUser] = useState({ name: '', email: '' });
+    const [user, setUser] = useState({ name: '', email: '', username: '' });
     const [editMode, setEditMode] = useState(false);
-    const [tempUser, setTempUser] = useState({ name: '', email: '' });
+    const [tempUser, setTempUser] = useState({ name: '', email: '', username: '' });
 
     const user_id_mock = 1;
 
@@ -52,17 +52,6 @@ const UserPage = () => {
     const handleEditTagClick = () => {
         console.log('Edit preferences');
     };
-
-    // const [user, setUser] = useState([]);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            const user = await getUser(1); //user_id 1
-            setUser(user);
-        };
-
-        fetchUser().catch(error => console.error('Error fetching tags:', error));
-    }, []);
 
     const [preferences, setPreferences] = useState([]);
 
@@ -118,12 +107,23 @@ const UserPage = () => {
                                         onChange={handleChange}
                                     />
                                 </div>
+                                <div>
+                                    <label htmlFor="username">Username: </label>
+                                    <input
+                                        type="text"
+                                        id="username"
+                                        name="username"
+                                        value={tempUser.username}
+                                        onChange={handleChange}
+                                    />
+                                </div>
                                 <button type="submit">Save Changes</button>
                             </form>
                         ) : (
                             <>
                                 <h3>Name: {user.name}</h3>
                                 <h3>Email: {user.email}</h3>
+                                <h3>Username: {user.username}</h3>
                                 <EditButton onClick={handleEditUserInfoClick}/>
                             </>
                         )}

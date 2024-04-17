@@ -83,12 +83,18 @@ export const updateUser = async (userId, userData) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData),
-    }).then(response => response.json());
+        body: JSON.stringify(userData)
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    });
 };
 
+
 export const getPreferences = async (id) => {
-    const apiUrl = `https://kvikktrip-backend.onrender.com/user/preferences/${id}`;
+    const apiUrl = `https://kvikktrip-backend.onrender.com/user/preference/${id}`;
 
     try {
         const response = await fetch(apiUrl);

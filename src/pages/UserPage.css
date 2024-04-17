@@ -6,9 +6,8 @@
 .grid-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    justify-items: stretch;
-    padding-bottom: 100px;
-    height: 100vh;
+    padding-bottom: 85px;
+    min-height: 100%;
 }
 
 .gridItem {
