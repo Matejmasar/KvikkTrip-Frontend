@@ -1,4 +1,5 @@
 import './EditButton.css';
+import PropTypes from "prop-types";
 
 const EditButton = ({ onClick }) => {
     return (
@@ -7,5 +8,9 @@ const EditButton = ({ onClick }) => {
         </button>
     );
 };
+
+EditButton.propTypes = {
+    onClick: PropTypes.func.isRequired
+}
 
 export default EditButton;
