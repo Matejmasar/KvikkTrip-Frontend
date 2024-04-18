@@ -5,14 +5,14 @@ import './AppHeader.css';
 const AppHeader = () => {
     const navigator = useNavigate()
 
-    const handleClick = () => {
-        navigator('/userpage');
-    }
-
     return (
         <div className="appHeader">
             <NavBar/>
-            <input type="button" onClick={handleClick} value="Profile"/>
+            {localStorage.getItem('userId') !== null ? (
+                <input type="button" onClick={() => navigator('/userpage')} value="Profile"/>
+            ) : (
+                <input type="button" onClick={() => navigator('/login')} value="Login here"/>
+            )}
         </div>
     )
 }
