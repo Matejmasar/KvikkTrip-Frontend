@@ -7,6 +7,10 @@ vi.mock("../src/services/loginservice.js", () => ({
     logoutUser: vi.fn(() => localStorage.clear())
 }));
 
+beforeEach(() => {
+   logoutUser.mockClear();
+});
+
 describe('Navbar', () => {
     render(<NavBar/>);
 
@@ -59,4 +63,19 @@ describe('Navbar', () => {
            expect(loginRef).toBeInTheDocument();
         });
     });
+
+    it('should let you log out with key', () => {
+        act(() => {
+            localStorage.setItem('userId', 10);
+        });
+        render(<NavBar/>);
+
+        const logoutRef = screen.getByText("Log out");
+        expect(logoutRef).toBeInTheDocument();
+
+        act(() => {
+           fireEvent.keyDown(logoutRef, {key: 'f'});
+        });
+        expect(logoutUser).toHaveBeenCalled();
+    }) ;
 });
