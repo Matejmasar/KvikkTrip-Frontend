@@ -50,3 +50,7 @@ export const loginUser = async (username, password) => {
         console.log(error);
     }
 }
+
+export const logoutUser = async () => {
+    console.log('logging out');
+}

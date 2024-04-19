@@ -68,4 +68,4 @@ describe('LoginPage + AppHeader', () => {
             expect(headerButton).toBeInTheDocument();
         });
     });
-})
+});
