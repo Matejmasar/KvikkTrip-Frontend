@@ -14,7 +14,9 @@ const AppHeader = () => {
 
     return (
         <div className="appHeader">
-            <img src={Icon} className="icon" alt="navbar" onClick={toggleNavbar}/>
+            <img src={Icon} className="icon" alt="navbar" onClick={toggleNavbar} onKeyDown={(e) => {
+                if (e.key === 'N') toggleNavbar();
+            }}/>
             {isOpen && (
                 <NavBar />
             )}

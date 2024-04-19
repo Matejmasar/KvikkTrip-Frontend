@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/App.jsx</title>
+    <title>Code coverage report for components/EndBar.jsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">src</a> App.jsx</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">components</a> EndBar.jsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -88,7 +88,20 @@
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -97,8 +110,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -113,39 +124,58 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import './App.css'
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import FrontPage from "./pages/FrontPage.jsx";
-import RegistrationPage from "./pages/RegistrationPage.jsx";
-import EnviromentPage from './pages/EnviromentPage.jsx';
-import UserPage from './pages/UserPage.jsx';
-import AboutUs from './pages/AboutUs.jsx';
-import LoginPage from "./pages/LoginPage.jsx";
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import './EndBar.css';
 &nbsp;
-const App = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-        &lt;Router&gt;
-            &lt;Routes&gt;
-                &lt;Route path='/' element={&lt;FrontPage /&gt;}&gt;&lt;/Route&gt;
-                &lt;Route path='/register' element={&lt;RegistrationPage /&gt;}&gt;&lt;/Route&gt;
-                &lt;Route path='/login' element={&lt;LoginPage /&gt;}&gt;&lt;/Route&gt;
-                &lt;Route path='/userpage' element={&lt;UserPage /&gt;}&gt;&lt;/Route&gt;
-                &lt;Route path='/enviroment' element={&lt;EnviromentPage /&gt;}&gt;&lt;/Route&gt;
-                &lt;Route path='/aboutus' element={&lt;AboutUs /&gt;}&gt;&lt;/Route&gt;
-            &lt;/Routes&gt;
-        &lt;/Router&gt;
-    )
+const EndBar = () =&gt; {
+    return (
+        &lt;&gt;
+            {/* &lt;footer className="footerContainer1"&gt;
+                &lt;ul className="NavList"&gt;
+                    &lt;li className="NavItem"&gt;&lt;a className="NavLink" href="/aboutus"&gt;ABOUT US&lt;/a&gt;&lt;/li&gt;
+                    &lt;li className="NavItem"&gt;&lt;a className="NavLink" href="#"&gt;CUSTOMER SERVICE&lt;/a&gt;&lt;/li&gt;
+                    &lt;li className="NavItem"&gt;&lt;a className="NavLink" href="#"&gt;TRAVELING INFORMATION&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/footer&gt;
+            &lt;footer className="footerContainer2"&gt;
+                &lt;ul className="NavList"&gt;
+                    &lt;li className="NavItem"&gt;&lt;a className="NavLink" href="#"&gt;COOKIES&lt;/a&gt;&lt;/li&gt;
+                    &lt;li className="NavItem"&gt;&lt;a className="NavLink" href="#"&gt;TERMS OF USE&lt;/a&gt;&lt;/li&gt;
+                    &lt;li className="NavItem"&gt;&lt;a className="NavLink" href="#"&gt;DATA MANAGING&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/footer&gt; */}
+            &lt;footer&gt;
+                &lt;div className="row top-row"&gt;
+                    &lt;a href="/aboutus"&gt;ABOUT US&lt;/a&gt;
+                    &lt;a href="#"&gt;TRAVELING INFORMATION&lt;/a&gt;
+                    &lt;a href="#"&gt;CUSTOMER SERVICE&lt;/a&gt;
+                &lt;/div&gt;
+                &lt;div className="row bottom-row"&gt;
+                    &lt;a href="#"&gt;COOKIES&lt;/a&gt;
+                    &lt;a href="#"&gt;TERMS OF USE&lt;/a&gt;
+                    &lt;a href="#"&gt;DATA MANAGING&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/footer&gt;
+        &lt;/&gt;
+    );
 }
 &nbsp;
-export default App
-&nbsp;</pre></td></tr></table></pre>
+export default EndBar;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-19T19:44:25.129Z
+                at 2024-04-19T20:09:23.966Z
             </div>
         <script src="../prettify.js"></script>
         <script>

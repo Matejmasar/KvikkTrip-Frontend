@@ -15,7 +15,9 @@ const NavBar = () => {
                     <a href={'/userpage'}>Profile Information</a>
                     <a href={'/environment'}>Environment Information</a>
                     <a>Help</a>
-                    <a onClick={handleLogout}>Log out</a>
+                    <a onClick={handleLogout} onKeyDown={(e) => {
+                        if (e.key === 'f') handleLogout();
+                    }}>Log out</a>
                 </>
             ) : (
                 <>
