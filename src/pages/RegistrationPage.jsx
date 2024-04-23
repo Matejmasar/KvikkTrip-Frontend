@@ -13,6 +13,7 @@ const RegistrationPage = () => {
         email: '',
     });
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [goodPassword, setGoodPassword] = useState(true);
 
     const navigator = useNavigate();
 
@@ -24,9 +25,22 @@ const RegistrationPage = () => {
         }));
     }
 
+    const checkPasswords = () => {
+        if (userData.password === confirmPassword) {
+            setGoodPassword(true);
+            return true
+        }
+        else {
+            setGoodPassword(false);
+            return false
+        }
+    }
+
     const handleRegister = async () => {
-        await registerUser(userData);
-        navigator("/");
+        if (checkPasswords()) {
+            await registerUser(userData);
+            navigator("/");
+        }
     }
 
     return (
@@ -66,7 +80,7 @@ const RegistrationPage = () => {
                     <div className="forminput">
                         <label className="formlabel" htmlFor="password">Password: </label>
                         <input
-                            type="text"
+                            type="password"
                             id="password"
                             name="password"
                             placeholder="Password"
@@ -80,7 +94,7 @@ const RegistrationPage = () => {
                     <div className="forminput">
                         <label className="formlabel" htmlFor="confirmpassword">Repeat Password: </label>
                         <input
-                            type="text"
+                            type="password"
                             id="confirmpassword"
                             name="confirmpassword"
                             placeholder="Repeat Password"
@@ -105,11 +119,12 @@ const RegistrationPage = () => {
                             }}
                         />
                     </div>
+                    {!goodPassword ? <p>Password does not match</p> : <p></p>}
                 </div>
                 <div className="registerbuttons">
                     <input className="registerbutton" type="button" onClick={handleRegister} value="Register"/>
                     <br/>
-                    <Link className="loginlink" to="/">Already have an account? Login here</Link>
+                    <Link className="loginlink" to="login">Already have an account? Login here</Link>
                 </div>
             </div>
             <EndBar />

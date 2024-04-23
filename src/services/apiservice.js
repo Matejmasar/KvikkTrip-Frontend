@@ -5,7 +5,7 @@ export const getRecommendations = async (filters) => {
 
     let results = [];
     if (filters.length > 0) {
-        const searchUrl = 'https://kvikktrip-backend.onrender.com/locations/search';
+        const searchUrl = 'https://bold-amandi-kvikktrip.koyeb.app/locations/search';
         const requestOpts = {
             method: 'POST',
             headers: {
@@ -32,7 +32,7 @@ export const getRecommendations = async (filters) => {
 }
 
 export const getTags = async () => {
-    const apiUrl = `https://kvikktrip-backend.onrender.com/tags`;
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/tags`;
 
     try {
         const response = await fetch(apiUrl, {mode: "cors"});
@@ -47,7 +47,7 @@ export const getTags = async () => {
 }
 
 export const getLocations = async () => {
-    const apiUrl = `https://kvikktrip-backend.onrender.com/locations`;
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/locations`;
 
     try {
         const response = await fetch(apiUrl);
@@ -61,8 +61,8 @@ export const getLocations = async () => {
     }
 }
 
-export const getUser = async (id) => {
-    const apiUrl = `https://kvikktrip-backend.onrender.com/user/${id}`;
+export const getUser = async (userId) => {
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/${userId}`;
 
     try {
         const response = await fetch(apiUrl);
@@ -77,7 +77,7 @@ export const getUser = async (id) => {
 }
 
 export const updateUser = async (userId, userData) => {
-    const apiUrl = `https://kvikktrip-backend.onrender.com/user/${userId}`;
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/${userId}`;
     return fetch(apiUrl, {
         method: 'PUT',
         headers: {
@@ -93,8 +93,39 @@ export const updateUser = async (userId, userData) => {
 };
 
 
-export const getPreferences = async (id) => {
-    const apiUrl = `https://kvikktrip-backend.onrender.com/user/preference/${id}`;
+export const getPreferences = async (userId) => {
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/preference/${userId}`;
+
+    try {
+        const response = await fetch(apiUrl);
+
+        if (response.status === 200) {
+            const data = await response.json();
+            return data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updatePreferences = async (userId, data) => {
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/preference/${userId}`;
+    return fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    });
+}
+
+export const getHistory = async (userId) => {
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/history/${userId}`;
 
     try {
         const response = await fetch(apiUrl);

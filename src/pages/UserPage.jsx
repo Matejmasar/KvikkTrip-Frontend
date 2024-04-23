@@ -3,31 +3,58 @@ import AppHeader from "../components/AppHeader.jsx";
 import EndBar from "../components/EndBar.jsx";
 import TravelLocation from "../components/TravelLocation.js";
 import LocationCard from "../components/LocationCard.jsx";
-import EditButton from '../components/EditButton.jsx';
+import Button from '../components/Button.jsx';
 import {useEffect, useState} from "react";
 import {getTags, getLocations, getUser, updateUser} from '../services/apiservice.js';
-// import { getPreferences } from '../services/apiservice.js';
+import { updatePreferences } from '../services/apiservice.js';
+// import { getPreferences, getHistory } from '../services/apiservice.js';
+import Select from "react-select";
+import {useNavigate} from "react-router-dom";
 
 
 const UserPage = () => {
-    const [user, setUser] = useState({ name: '', email: '', username: '' });
-    const [editMode, setEditMode] = useState(false);
-    const [tempUser, setTempUser] = useState({ name: '', email: '', username: '' });
+    const navigator = useNavigate();
 
-    const user_id_mock = 1;
+    const [user, setUser] = useState({ name: '', email: '', username: '' });
+    const [tempUser, setTempUser] = useState({ name: '', email: '', username: '' });
+    const [editUserMode, setEditUserMode] = useState(false);
+    const [preferences, setPreferences] = useState([]);
+    const [selectedPreferences, setSelectedPreferences] = useState([]);
+    const [editPreferencesMode, setEditPreferencesMode] = useState(false);
+    const [locs, setLocs] = useState([]);
+    const [tags, setTags] = useState([]);
+
+    const user_id = localStorage.getItem('userId');
 
     useEffect(() => {
         const fetchUser = async () => {
-            const user = await getUser(user_id_mock);
+            const user = await getUser(user_id);
             setUser(user);
             setTempUser(user);
-        };
 
+            const locations = await getLocations();
+            const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
+            setLocs(transformedLocations);
+            // const locations = await getHistory(user_id);
+            // const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
+            // setLocs(transformedLocations); 
+
+            const mockPreferences = await getTags();
+            setPreferences(mockPreferences);
+            // const userPreferences = await getPreferences(user_id);
+            // setSelectedPreferences(userPreferences);
+
+            let tags = await getTags()
+            tags = tags.map(item => ({value: item.label, label: item.label}));
+            setTags(tags);
+
+        };
         fetchUser().catch(error => console.error('Error fetching user:', error));
-    }, []);
+
+    }, [user_id]);
 
     const handleEditUserInfoClick = () => {
-        setEditMode(true);
+        setEditUserMode(true);
     };
 
     const handleChange = (e) => {
@@ -41,41 +68,31 @@ const UserPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await updateUser(user_id_mock, tempUser);
+            await updateUser(user_id, tempUser);
             setUser(tempUser);
-            setEditMode(false);
+            setEditUserMode(false);
         } catch (error) {
             console.error('Error updating user:', error);
         }
     };
 
-    const handleEditTagClick = () => {
-        console.log('Edit preferences');
+    const handleEditPreferencesClick = () => {
+        setEditPreferencesMode(true);
     };
 
-    const [preferences, setPreferences] = useState([]);
+    const handlePreferencesChange = selectedOptions => {
+        setSelectedPreferences(selectedOptions);
+    };
 
-    useEffect(() => {
-        const fetchPreferences = async () => {
-            // const preferences = await getPreferences(1); //user_id 1
-            const preferences = await getTags();
-            setPreferences(preferences);
-        };
-
-        fetchPreferences().catch(error => console.error('Error fetching tags:', error));
-    }, []);
-
-    const [locs, setLocs] = useState([]);
-
-    useEffect(() => {
-        const fetchLocations = async () => {
-            const locations = await getLocations();
-            const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
-            setLocs(transformedLocations);
-        };
-
-        fetchLocations().catch(error => console.error('Error fetching locations:', error));
-    }, []);
+    const handleSavePreferences = async () => {
+        const preferencesToSave = selectedPreferences.map(pref => pref.value);
+        try {
+            await updatePreferences(user_id, preferencesToSave);
+            setEditPreferencesMode(false);
+        } catch (error) {
+            console.error('Error updating preferences:', error);
+        }
+    };
 
 
     return (
@@ -85,7 +102,7 @@ const UserPage = () => {
                 <div className="grid-container">
                     <div className="gridItem" style={{marginRight: '10px'}}>
                         <h1 style={{ textAlign: 'center' }}>User info:</h1>
-                        {editMode ? (
+                        {editUserMode ? (
                             <form onSubmit={handleSubmit}>
                                 <div>
                                     <label htmlFor="name">Name: </label>
@@ -117,30 +134,47 @@ const UserPage = () => {
                                         onChange={handleChange}
                                     />
                                 </div>
-                                <button type="submit">Save Changes</button>
+                                <Button onClick={handleEditUserInfoClick} text={'Save changes'} type="submit"/>
                             </form>
                         ) : (
                             <>
                                 <h3>Name: {user.name}</h3>
                                 <h3>Email: {user.email}</h3>
                                 <h3>Username: {user.username}</h3>
-                                <EditButton onClick={handleEditUserInfoClick}/>
+                                <Button onClick={handleEditUserInfoClick} text={'EDIT USER INFO'}/>
                             </>
                         )}
-                        <h2>Personal preferences</h2>
-                        <ul>
-                            {preferences.map(tag => (
-                                <li key={tag.value}>{tag.label}</li>
-                            ))}
-                        </ul>
-                        <EditButton onClick={handleEditTagClick}/>
-                        <div id="userEditForm"></div>
+
+                        <h2 style={{textAlign: 'center'}}>Personal preferences</h2>
+                        {editPreferencesMode ? (
+                            <>
+                                <Select
+                                    name="preferences"
+                                    placeholder="Choose tags"
+                                    defaultValue={preferences}
+                                    isMulti
+                                    onChange={handlePreferencesChange}
+                                    options={tags}
+                                />
+                                <Button onClick={handleSavePreferences} text="Save Preferences" />
+                            </>
+                        ) : (
+                            <>
+                                <ul>
+                                    {preferences.map(tag => ( //user_id's preferences
+                                        <li key={tag.value}>{tag.label}</li>
+                                    ))}
+                                </ul>
+                                <Button onClick={handleEditPreferencesClick} text="EDIT PREFERENCES" />
+                            </>
+                        )}
                     </div>
                     <div className="gridItem" style={{marginLeft: '10px'}}>
                         <h1 style={{ textAlign: 'center' }}>Recent trips:</h1>
-                        {locs.map((loc, index) => (
+                        {locs.slice(0,3).map((loc, index) => (
                             <LocationCard key={index} location={loc}></LocationCard>    
                         ))}
+                        <Button onClick={() => navigator('/history')} text='SHOW ALL'></Button>
                     </div>
                 </div>
             </div>
