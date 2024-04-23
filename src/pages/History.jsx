@@ -33,13 +33,15 @@ const History = () => {
     return (
         <>
             <AppHeader/>
-            <div className='page-container1'>
-                <div className="grid-container1">
-                    <div className='gridItem1'>
-                        <h1>Travel history:</h1>
+            <div className='page-container2'>
+                <div className="grid-container2">
+                    <h1>Travel history:</h1>
+                    <div className='gridItem2'>  
                         {locs.map((loc, index) => (
                             <LocationCard key={index} location={loc}></LocationCard>    
                         ))}
+                    </div>
+                    <div className='bottomItem'>
                         <Button onClick={() => navigator('/userpage')} text='BACK TO PROFILE'></Button>
                     </div>
                 </div>
