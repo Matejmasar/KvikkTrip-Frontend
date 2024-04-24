@@ -124,7 +124,7 @@ const RegistrationPage = () => {
                 <div className="registerbuttons">
                     <input className="registerbutton" type="button" onClick={handleRegister} value="Register"/>
                     <br/>
-                    <Link className="loginlink" to="login">Already have an account? Login here</Link>
+                    <Link className="loginlink" to="/login">Already have an account? Login here</Link>
                 </div>
             </div>
             <EndBar />
