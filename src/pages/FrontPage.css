@@ -9,7 +9,7 @@
 
 .frontPageContainer {
     display: grid;
-    grid-template-rows: auto 0.4fr 1fr auto;
+    grid-template-rows: 25px 0.3fr 1fr auto;
 
     height: 90%;
 }
