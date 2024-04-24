@@ -63,7 +63,7 @@ const LoginPage = () => {
                 <div className="registerbuttons">
                     <input className="registerbutton" type="button" onClick={handleLogin} value="Login"/>
                     <br/>
-                    <Link className="loginlink" to='register'>Dont have an account? Register here</Link>
+                    <Link className="loginlink" to='/register'>Dont have an account? Register here</Link>
                 </div>
             </div>
         </div>

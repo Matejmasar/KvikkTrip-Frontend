@@ -101,3 +101,29 @@ export const getPreferences = async (id) => {
         console.log(error);
     }
 }
+
+export const AIHelp = async (question) => {
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/chatbot`;
+    const params = new URLSearchParams();
+    params.append('query', question);
+
+    const requestOpt = {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: params
+    }
+
+    try {
+        const response = await fetch(apiUrl, requestOpt);
+
+        if (response.status === 200) {
+            const data = response.json();
+            console.log(data);
+            return data;
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}

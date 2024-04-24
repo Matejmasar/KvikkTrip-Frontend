@@ -52,5 +52,15 @@ export const loginUser = async (username, password) => {
 }
 
 export const logoutUser = async () => {
-    console.log('logging out');
+    const apiUrl = 'https://bold-amandi-kvikktrip.koyeb.app/logout';
+
+    try {
+        const response = await fetch(apiUrl);
+
+        if (response.status === 200) {
+            localStorage.clear();
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
