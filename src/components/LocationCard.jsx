@@ -5,8 +5,11 @@ import './LocationCard.css';
 const LocationCard = (props) => {
     const { location } = props;
 
+    const loc_id = location.name;
+
     const handleClick = () => {
         console.log("Clicked")
+        console.log(loc_id)
     }
 
     return (

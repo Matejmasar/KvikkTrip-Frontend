@@ -26,6 +26,8 @@ const UserPage = () => {
 
     const user_id = localStorage.getItem('userId');
 
+    const picture = '/ny 1.png';
+
     useEffect(() => {
         const fetchUser = async () => {
             const user = await getUser(user_id);
@@ -33,7 +35,7 @@ const UserPage = () => {
             setTempUser(user);
 
             const locations = await getLocations();
-            const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
+            const transformedLocations = locations.map(loc => new TravelLocation(loc.name, picture, loc.country, loc.weather, loc.price));
             setLocs(transformedLocations);
             // const locations = await getHistory(user_id);
             // const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
@@ -101,80 +103,112 @@ const UserPage = () => {
             <div className='page-container'>
                 <div className="grid-container">
                     <div className="gridItem" style={{marginRight: '10px'}}>
-                        <h1 style={{ textAlign: 'center' }}>User info:</h1>
+                        
+                        <h1 style={{ textAlign: 'center' }} id='title'>User info:</h1>
+                        <div className="user-info-grid">
                         {editUserMode ? (
-                            <form onSubmit={handleSubmit}>
-                                <div>
-                                    <label htmlFor="name">Name: </label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        value={tempUser.name}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="email">Email: </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        value={tempUser.email}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="username">Username: </label>
-                                    <input
-                                        type="text"
-                                        id="username"
-                                        name="username"
-                                        value={tempUser.username}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                                <Button onClick={handleEditUserInfoClick} text={'Save changes'} type="submit"/>
-                            </form>
-                        ) : (
                             <>
-                                <h3>Name: {user.name}</h3>
-                                <h3>Email: {user.email}</h3>
-                                <h3>Username: {user.username}</h3>
-                                <Button onClick={handleEditUserInfoClick} text={'EDIT USER INFO'}/>
-                            </>
-                        )}
-
-                        <h2 style={{textAlign: 'center'}}>Personal preferences</h2>
-                        {editPreferencesMode ? (
-                            <>
-                                <Select
-                                    name="preferences"
-                                    placeholder="Choose tags"
-                                    defaultValue={preferences}
-                                    isMulti
-                                    onChange={handlePreferencesChange}
-                                    options={tags}
-                                />
-                                <Button onClick={handleSavePreferences} text="Save Preferences" />
+                                <div className='user-info-item' id='name'>
+                                    <form onSubmit={handleSubmit}>
+                                        <label htmlFor="name"><h3>Name: </h3> </label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            value={tempUser.name}
+                                            onChange={handleChange} />
+                                    </form>
+                                </div>
+                                <div className='user-info-item' id='email'>
+                                    <form onSubmit={handleSubmit}>
+                                        <label htmlFor="email"><h3>Email: </h3> </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value={tempUser.email}
+                                            onChange={handleChange} />
+                                    </form>
+                                </div>
+                                <div className='user-info-item' id='username'>
+                                    <form onSubmit={handleSubmit}>
+                                        <label htmlFor="username"><h3>Username: </h3> </label>
+                                        <input
+                                            type="text"
+                                            id="username"
+                                            name="username"
+                                            value={tempUser.username}
+                                            onChange={handleChange} />
+                                    </form>
+                                </div>
+                                <div className='user-info-item' id='button'>
+                                    <Button onClick={handleEditUserInfoClick} text={'Save changes'} type="submit" />
+                                </div>
                             </>
                         ) : (
                             <>
-                                <ul>
-                                    {preferences.map(tag => ( //user_id's preferences
-                                        <li key={tag.value}>{tag.label}</li>
-                                    ))}
-                                </ul>
-                                <Button onClick={handleEditPreferencesClick} text="EDIT PREFERENCES" />
+                                <div className='user-info-item' id='name'>
+                                    <h3>Name: <br />{user.name} </h3>
+                                </div>
+                                <div className='user-info-item' id='email'>
+                                    <h3>Email: <br />{user.email}</h3>
+                                </div>
+                                <div className='user-info-item' id='username'>
+                                    <h3>Username: <br />{user.username}</h3>
+                                </div>
+                            
+                                <div className='user-info-item' id='button'>
+                                    <Button onClick={handleEditUserInfoClick} text={'EDIT USER INFO'}/>
+                                </div>
                             </>
                         )}
+                        </div>
+                        <h1 style={{textAlign: 'center'}}>Personal preferences:</h1>
+                        <div className="preference-grid">
+                            {editPreferencesMode ? (
+                                <>
+                                    <div className='user-info-item' id='prefs'>
+                                        <Select
+                                            name="preferences"
+                                            placeholder="Choose tags"
+                                            defaultValue={preferences}
+                                            isMulti
+                                            onChange={handlePreferencesChange}
+                                            options={tags}
+                                        />
+                                    </div>
+                                    <div className='user-info-item' id='button2'>
+                                        <Button onClick={handleSavePreferences} text="Save Preferences" />
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className='user-info-item' id='prefs'>
+                                        <ul>
+                                            {preferences.map(tag => ( //user_id's preferences
+                                                <li key={tag.value}>{tag.label}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    <div className='user-info-item' id='button2'>
+                                        <Button onClick={handleEditPreferencesClick} text="EDIT PREFERENCES" />
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
                     <div className="gridItem" style={{marginLeft: '10px'}}>
                         <h1 style={{ textAlign: 'center' }}>Recent trips:</h1>
-                        {locs.slice(0,3).map((loc, index) => (
-                            <LocationCard key={index} location={loc}></LocationCard>    
-                        ))}
-                        <Button onClick={() => navigator('/history')} text='SHOW ALL'></Button>
+                        <div className='locations-grid'>
+                            {locs.slice(0,3).map((loc, index) => (
+                                <LocationCard key={index} location={loc}></LocationCard>    
+                            ))}
+                        </div>
+                        <div className='loc-button-grid'>
+                            <div className='user-info-item' id='loc-button'>
+                                <Button onClick={() => navigator('/history')} text='SHOW ALL'></Button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
