@@ -1,0 +1,35 @@
+.helpPopup {
+    display: flex;
+    flex-direction: column;
+    background-color: #6BC1DC;
+    border-radius: 10px;
+    padding: 25px;
+
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+
+    min-width: 25%;
+    min-height: 50%;
+    max-width: 25%;
+    max-height: 50%;
+}
+
+.inputField {
+    display: flex;
+
+}
+
+.outputField {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+
+    max-height: 40%;
+}
