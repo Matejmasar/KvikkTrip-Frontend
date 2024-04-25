@@ -1,4 +1,14 @@
-.gridItem {
+.page-container1 {
+    position: relative;
+    min-height: 100vh;
+}
+
+.grid-container1 {
+    padding-bottom: 85px;
+    min-height: 100%;
+}
+
+.gridItem1 {
     padding: 20px;
     margin: 20px;
     background-color: rgba(255, 255, 255, .5);

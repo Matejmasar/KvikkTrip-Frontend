@@ -61,8 +61,8 @@ export const getLocations = async () => {
     }
 }
 
-export const getUser = async (id) => {
-    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/${id}`;
+export const getUser = async (userId) => {
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/${userId}`;
 
     try {
         const response = await fetch(apiUrl);
@@ -83,12 +83,49 @@ export const updateUser = async (userId, userData) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData),
-    }).then(response => response.json());
+        body: JSON.stringify(userData)
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    });
 };
 
-export const getPreferences = async (id) => {
-    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/preferences/${id}`;
+
+export const getPreferences = async (userId) => {
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/preference/${userId}`;
+
+    try {
+        const response = await fetch(apiUrl);
+
+        if (response.status === 200) {
+            const data = await response.json();
+            return data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updatePreferences = async (userId, data) => {
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/preference/${userId}`;
+    return fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    });
+}
+
+export const getHistory = async (userId) => {
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/history/${userId}`;
 
     try {
         const response = await fetch(apiUrl);

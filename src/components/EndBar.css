@@ -1,19 +1,7 @@
 body, html {
-    height: 100%;
     margin: 0;
 }
-  
-.page-content {
-    min-height: 100%;
-    margin-bottom: -80px;
-}
-  
-.page-content:after {
-    content: "";
-    display: block;
-    height: 80px;
-}
-  
+   
 footer {
     position: fixed;
     left: 0;
@@ -30,7 +18,7 @@ footer {
     margin: 0;
   }
   
-  .row a {
+.row a {
     text-decoration: none;
     color: white;
     flex-grow: 1;
@@ -40,7 +28,7 @@ footer {
     &:hover {
         text-decoration: underline;
     }
-  }
+}
   
 .top-row a {
     background-color: #6BC1DC;
