@@ -6,6 +6,7 @@ import EnviromentPage from './pages/EnviromentPage.jsx';
 import UserPage from './pages/UserPage.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import LoginPage from "./pages/LoginPage.jsx";
+import History from './pages/History.jsx';
 
 const App = () => {
     return (
@@ -17,6 +18,7 @@ const App = () => {
                 <Route path='/userpage' element={<UserPage />}></Route>
                 <Route path='/enviroment' element={<EnviromentPage />}></Route>
                 <Route path='/aboutus' element={<AboutUs />}></Route>
+                <Route path='/history' element={<History />}></Route>
             </Routes>
         </Router>
     )

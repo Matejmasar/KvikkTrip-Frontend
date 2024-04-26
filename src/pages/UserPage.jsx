@@ -3,31 +3,60 @@ import AppHeader from "../components/AppHeader.jsx";
 import EndBar from "../components/EndBar.jsx";
 import TravelLocation from "../components/TravelLocation.js";
 import LocationCard from "../components/LocationCard.jsx";
-import EditButton from '../components/EditButton.jsx';
+import Button from '../components/Button.jsx';
 import {useEffect, useState} from "react";
 import {getTags, getLocations, getUser, updateUser} from '../services/apiservice.js';
-// import { getPreferences } from '../services/apiservice.js';
+import { updatePreferences } from '../services/apiservice.js';
+// import { getPreferences, getHistory } from '../services/apiservice.js';
+import Select from "react-select";
+import {useNavigate} from "react-router-dom";
 
 
 const UserPage = () => {
-    const [user, setUser] = useState({ name: '', email: '' });
-    const [editMode, setEditMode] = useState(false);
-    const [tempUser, setTempUser] = useState({ name: '', email: '' });
+    const navigator = useNavigate();
 
-    const user_id_mock = 1;
+    const [user, setUser] = useState({ name: '', email: '', username: '' });
+    const [tempUser, setTempUser] = useState({ name: '', email: '', username: '' });
+    const [editUserMode, setEditUserMode] = useState(false);
+    const [preferences, setPreferences] = useState([]);
+    const [selectedPreferences, setSelectedPreferences] = useState([]);
+    const [editPreferencesMode, setEditPreferencesMode] = useState(false);
+    const [locs, setLocs] = useState([]);
+    const [tags, setTags] = useState([]);
+
+    const user_id = localStorage.getItem('userId');
+
+    const picture = '/ny 1.png';
 
     useEffect(() => {
         const fetchUser = async () => {
-            const user = await getUser(user_id_mock);
+            const user = await getUser(user_id);
             setUser(user);
             setTempUser(user);
-        };
 
+            const locations = await getLocations();
+            const transformedLocations = locations.map(loc => new TravelLocation(loc.name, picture, loc.country, loc.weather, loc.price));
+            setLocs(transformedLocations);
+            // const locations = await getHistory(user_id);
+            // const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
+            // setLocs(transformedLocations); 
+
+            const mockPreferences = await getTags();
+            setPreferences(mockPreferences);
+            // const userPreferences = await getPreferences(user_id);
+            // setSelectedPreferences(userPreferences);
+
+            let tags = await getTags()
+            tags = tags.map(item => ({value: item.label, label: item.label}));
+            setTags(tags);
+
+        };
         fetchUser().catch(error => console.error('Error fetching user:', error));
-    }, []);
+
+    }, [user_id]);
 
     const handleEditUserInfoClick = () => {
-        setEditMode(true);
+        setEditUserMode(true);
     };
 
     const handleChange = (e) => {
@@ -41,52 +70,31 @@ const UserPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await updateUser(user_id_mock, tempUser);
+            await updateUser(user_id, tempUser);
             setUser(tempUser);
-            setEditMode(false);
+            setEditUserMode(false);
         } catch (error) {
             console.error('Error updating user:', error);
         }
     };
 
-    const handleEditTagClick = () => {
-        console.log('Edit preferences');
+    const handleEditPreferencesClick = () => {
+        setEditPreferencesMode(true);
     };
 
-    // const [user, setUser] = useState([]);
+    const handlePreferencesChange = selectedOptions => {
+        setSelectedPreferences(selectedOptions);
+    };
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            const user = await getUser(1); //user_id 1
-            setUser(user);
-        };
-
-        fetchUser().catch(error => console.error('Error fetching tags:', error));
-    }, []);
-
-    const [preferences, setPreferences] = useState([]);
-
-    useEffect(() => {
-        const fetchPreferences = async () => {
-            // const preferences = await getPreferences(1); //user_id 1
-            const preferences = await getTags();
-            setPreferences(preferences);
-        };
-
-        fetchPreferences().catch(error => console.error('Error fetching tags:', error));
-    }, []);
-
-    const [locs, setLocs] = useState([]);
-
-    useEffect(() => {
-        const fetchLocations = async () => {
-            const locations = await getLocations();
-            const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
-            setLocs(transformedLocations);
-        };
-
-        fetchLocations().catch(error => console.error('Error fetching locations:', error));
-    }, []);
+    const handleSavePreferences = async () => {
+        const preferencesToSave = selectedPreferences.map(pref => pref.value);
+        try {
+            await updatePreferences(user_id, preferencesToSave);
+            setEditPreferencesMode(false);
+        } catch (error) {
+            console.error('Error updating preferences:', error);
+        }
+    };
 
 
     return (
@@ -95,52 +103,112 @@ const UserPage = () => {
             <div className='page-container'>
                 <div className="grid-container">
                     <div className="gridItem" style={{marginRight: '10px'}}>
-                        <h1 style={{ textAlign: 'center' }}>User info:</h1>
-                        {editMode ? (
-                            <form onSubmit={handleSubmit}>
-                                <div>
-                                    <label htmlFor="name">Name: </label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        value={tempUser.name}
-                                        onChange={handleChange}
-                                    />
+                        
+                        <h1 style={{ textAlign: 'center' }} id='title'>User info:</h1>
+                        <div className="user-info-grid">
+                        {editUserMode ? (
+                            <>
+                                <div className='user-info-item' id='name'>
+                                    <form onSubmit={handleSubmit}>
+                                        <label htmlFor="name"><h3>Name: </h3> </label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            value={tempUser.name}
+                                            onChange={handleChange} />
+                                    </form>
                                 </div>
-                                <div>
-                                    <label htmlFor="email">Email: </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        value={tempUser.email}
-                                        onChange={handleChange}
-                                    />
+                                <div className='user-info-item' id='email'>
+                                    <form onSubmit={handleSubmit}>
+                                        <label htmlFor="email"><h3>Email: </h3> </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value={tempUser.email}
+                                            onChange={handleChange} />
+                                    </form>
                                 </div>
-                                <button type="submit">Save Changes</button>
-                            </form>
+                                <div className='user-info-item' id='username'>
+                                    <form onSubmit={handleSubmit}>
+                                        <label htmlFor="username"><h3>Username: </h3> </label>
+                                        <input
+                                            type="text"
+                                            id="username"
+                                            name="username"
+                                            value={tempUser.username}
+                                            onChange={handleChange} />
+                                    </form>
+                                </div>
+                                <div className='user-info-item' id='button'>
+                                    <Button onClick={handleEditUserInfoClick} text={'Save changes'} type="submit" />
+                                </div>
+                            </>
                         ) : (
                             <>
-                                <h3>Name: {user.name}</h3>
-                                <h3>Email: {user.email}</h3>
-                                <EditButton onClick={handleEditUserInfoClick}/>
+                                <div className='user-info-item' id='name'>
+                                    <h3>Name: <br />{user.name} </h3>
+                                </div>
+                                <div className='user-info-item' id='email'>
+                                    <h3>Email: <br />{user.email}</h3>
+                                </div>
+                                <div className='user-info-item' id='username'>
+                                    <h3>Username: <br />{user.username}</h3>
+                                </div>
+                            
+                                <div className='user-info-item' id='button'>
+                                    <Button onClick={handleEditUserInfoClick} text={'EDIT USER INFO'}/>
+                                </div>
                             </>
                         )}
-                        <h2>Personal preferences</h2>
-                        <ul>
-                            {preferences.map(tag => (
-                                <li key={tag.value}>{tag.label}</li>
-                            ))}
-                        </ul>
-                        <EditButton onClick={handleEditTagClick}/>
-                        <div id="userEditForm"></div>
+                        </div>
+                        <h1 style={{textAlign: 'center'}}>Personal preferences:</h1>
+                        <div className="preference-grid">
+                            {editPreferencesMode ? (
+                                <>
+                                    <div className='user-info-item' id='prefs'>
+                                        <Select
+                                            name="preferences"
+                                            placeholder="Choose tags"
+                                            defaultValue={preferences}
+                                            isMulti
+                                            onChange={handlePreferencesChange}
+                                            options={tags}
+                                        />
+                                    </div>
+                                    <div className='user-info-item' id='button2'>
+                                        <Button onClick={handleSavePreferences} text="Save Preferences" />
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className='user-info-item' id='prefs'>
+                                        <ul>
+                                            {preferences.map(tag => ( //user_id's preferences
+                                                <li key={tag.value}>{tag.label}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    <div className='user-info-item' id='button2'>
+                                        <Button onClick={handleEditPreferencesClick} text="EDIT PREFERENCES" />
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
                     <div className="gridItem" style={{marginLeft: '10px'}}>
                         <h1 style={{ textAlign: 'center' }}>Recent trips:</h1>
-                        {locs.map((loc, index) => (
-                            <LocationCard key={index} location={loc}></LocationCard>    
-                        ))}
+                        <div className='locations-grid'>
+                            {locs.slice(0,3).map((loc, index) => (
+                                <LocationCard key={index} location={loc}></LocationCard>    
+                            ))}
+                        </div>
+                        <div className='loc-button-grid'>
+                            <div className='user-info-item' id='loc-button'>
+                                <Button onClick={() => navigator('/history')} text='SHOW ALL'></Button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

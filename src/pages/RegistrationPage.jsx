@@ -9,6 +9,7 @@ const RegistrationPage = () => {
     const [userData, setUserData] = useState({
         username: '',
         name: '',
+        city: '',
         password: '',
         email: '',
     });
@@ -73,6 +74,20 @@ const RegistrationPage = () => {
                             value={userData.name}
                             onChange={handleChange}
                             onKeyDown={(e) => {
+                                if (e.key === "Enter") document.getElementById("city").focus();
+                            }}
+                        />
+                    </div>
+                    <div className="forminput">
+                        <label className="formlabel" htmlFor="city">City: </label>
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            placeholder="City"
+                            value={userData.city}
+                            onChange={handleChange}
+                            onKeyDown={(e) => {
                                 if (e.key === "Enter") document.getElementById("password").focus();
                             }}
                         />
@@ -99,7 +114,9 @@ const RegistrationPage = () => {
                             name="confirmpassword"
                             placeholder="Repeat Password"
                             value={confirmPassword}
-                            onChange={(e) => {setConfirmPassword(e.target.value)}}
+                            onChange={(e) => {
+                                setConfirmPassword(e.target.value)
+                            }}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") document.getElementById("email").focus();
                             }}
@@ -124,10 +141,10 @@ const RegistrationPage = () => {
                 <div className="registerbuttons">
                     <input className="registerbutton" type="button" onClick={handleRegister} value="Register"/>
                     <br/>
-                    <Link className="loginlink" to="login">Already have an account? Login here</Link>
+                    <Link className="loginlink" to="/login">Already have an account? Login here</Link>
                 </div>
             </div>
-            <EndBar />
+            <EndBar/>
         </div>
     )
 }

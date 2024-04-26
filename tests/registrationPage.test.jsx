@@ -8,7 +8,7 @@ vi.mock("../src/services/loginservice.js", () => ({
     registerUser: vi.fn()
 }));
 
-let usernameInput, nameInput, passwordInput, confirmPasswordInput, emailInput, registerButton;
+let usernameInput, nameInput, cityInput, passwordInput, confirmPasswordInput, emailInput, registerButton;
 
 beforeEach(() => {
     render(
@@ -19,6 +19,7 @@ beforeEach(() => {
 
     usernameInput = screen.getByRole('textbox', {name: 'Username:'});
     nameInput = screen.getByRole('textbox', {name: 'Name:'});
+    cityInput = screen.getByRole('textbox', {name: 'City:'});
     passwordInput = screen.getByLabelText('Password:');
     confirmPasswordInput = screen.getByLabelText('Repeat Password:');
     emailInput = screen.getByRole('textbox', {name: 'Email:'});
@@ -31,6 +32,7 @@ describe('RegistrationPage', () => {
     it('should render correctly', () => {
         expect(usernameInput).toBeInTheDocument();
         expect(nameInput).toBeInTheDocument();
+        expect(cityInput).toBeInTheDocument();
         expect(passwordInput).toBeInTheDocument();
         expect(emailInput).toBeInTheDocument();
         expect(registerButton).toBeInTheDocument();
@@ -42,6 +44,9 @@ describe('RegistrationPage', () => {
 
         fireEvent.keyDown(document.activeElement, {key: 'Enter'});
         expect(document.activeElement).toBe(nameInput);
+
+        fireEvent.keyDown(document.activeElement, {key: 'Enter'});
+        expect(document.activeElement).toBe(cityInput);
 
         fireEvent.keyDown(document.activeElement, {key: 'Enter'});
         expect(document.activeElement).toBe(passwordInput);
@@ -59,6 +64,7 @@ describe('RegistrationPage', () => {
     it('should register right values', async () => {
         fireEvent.change(usernameInput, { target: { value: 'testuser' } });
         fireEvent.change(nameInput, { target: { value: 'Test User' } });
+        fireEvent.change(cityInput, { target: { value: 'Test City' } });
         fireEvent.change(passwordInput, { target: { value: 'testpassword' } });
         fireEvent.change(confirmPasswordInput, { target: {value: 'testpassword'}});
         fireEvent.change(emailInput, { target: { value: 'test@user.com' } });
@@ -69,6 +75,7 @@ describe('RegistrationPage', () => {
            expect(registerUser).toHaveBeenCalledWith({
                username: 'testuser',
                name: 'Test User',
+               city: 'Test City',
                password: 'testpassword',
                email: 'test@user.com',
            });
