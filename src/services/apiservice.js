@@ -1,5 +1,15 @@
 import TravelLocation from "../components/TravelLocation.js";
-
+function generateSymbols(price) {
+    if (price === 1) {
+        return "$";
+    } else if (price === 2) {
+        return "$$";
+    } else if (price === 3) {
+        return "$$$";
+    } else {
+        return "$$";
+    }
+}
 export const getRecommendations = async (filters) => {
     const picture = '/ny 1.png';
 
@@ -26,7 +36,7 @@ export const getRecommendations = async (filters) => {
     } else {
         results = await getLocations();
     }
-    results = results.map(result => new TravelLocation(result.name, picture, result.country, "Sun", "$$"));
+    results = results.map(result => new TravelLocation(result.name, picture, result.country, "Sun", generateSymbols(result.price)));
 
     return results;
 }

@@ -19,7 +19,7 @@ const FrontPage = () => {
     useEffect(() => {
         const handleRecommendations = async () => {
             const results = await getRecommendations(filters);
-            setRecommendations(results);
+            setRecommendations(results.slice(0, 6));
             setLoading(false);
         }
         handleRecommendations();

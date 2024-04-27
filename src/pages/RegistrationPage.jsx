@@ -1,9 +1,11 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {registerUser} from "../services/loginservice.js";
 import "./RegistrationPage.css";
 import AppHeader from "../components/AppHeader.jsx";
 import EndBar from "../components/EndBar.jsx";
+import flagsmith from 'flagsmith';
+import {useFlags, useFlagsmith} from "flagsmith/react.js";
 
 const RegistrationPage = () => {
     const [userData, setUserData] = useState({
@@ -17,6 +19,8 @@ const RegistrationPage = () => {
     const [goodPassword, setGoodPassword] = useState(true);
 
     const navigator = useNavigate();
+    const flags = useFlags(['registration_enabled']);
+    const flagsmith = useFlagsmith();
 
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -49,7 +53,7 @@ const RegistrationPage = () => {
             <AppHeader />
             <div className="register">
                 <h1>Register new account</h1>
-                <div className="formcontainer">
+                {flagsmith.hasFeature('registration_enabled') && <div className="formcontainer">
                     <div className="forminput">
                         <label className="formlabel" htmlFor="username">Username: </label>
                         <input
@@ -137,12 +141,13 @@ const RegistrationPage = () => {
                         />
                     </div>
                     {!goodPassword ? <p>Password does not match</p> : <p></p>}
-                </div>
-                <div className="registerbuttons">
+                </div>}
+                {flagsmith.hasFeature('registration_enabled') && <div className="registerbuttons">
                     <input className="registerbutton" type="button" onClick={handleRegister} value="Register"/>
                     <br/>
                     <Link className="loginlink" to="/login">Already have an account? Login here</Link>
-                </div>
+                </div>}
+                {!flagsmith.hasFeature('registration_enabled') && <div><h2>We do not accept new users at the moment</h2></div>}
             </div>
             <EndBar/>
         </div>
