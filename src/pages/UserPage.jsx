@@ -5,7 +5,7 @@ import TravelLocation from "../components/TravelLocation.js";
 import LocationCard from "../components/LocationCard.jsx";
 import Button from '../components/Button.jsx';
 import {useEffect, useState} from "react";
-import {getTags, getLocations, getUser, updateUser} from '../services/apiservice.js';
+import {getTags, getLocations, getUser, updateUser, getPreferences, getUserLocations} from '../services/apiservice.js';
 import { updatePreferences } from '../services/apiservice.js';
 // import { getPreferences, getHistory } from '../services/apiservice.js';
 import Select from "react-select";
@@ -34,14 +34,15 @@ const UserPage = () => {
             setUser(user);
             setTempUser(user);
 
-            const locations = await getLocations();
+            const locations = await getUserLocations(user_id);
             const transformedLocations = locations.map(loc => new TravelLocation(loc.name, picture, loc.country, loc.weather, loc.price));
             setLocs(transformedLocations);
             // const locations = await getHistory(user_id);
             // const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
             // setLocs(transformedLocations); 
 
-            const mockPreferences = await getTags();
+            const mockPreferences = await getPreferences(user_id);
+            console.log(mockPreferences)
             setPreferences(mockPreferences);
             // const userPreferences = await getPreferences(user_id);
             // setSelectedPreferences(userPreferences);
@@ -56,7 +57,15 @@ const UserPage = () => {
     }, [user_id]);
 
     const handleEditUserInfoClick = () => {
-        setEditUserMode(true);
+        if(editUserMode === false){
+            setEditUserMode(true);
+        }
+        else{
+            setEditUserMode(false);
+            updateUser(user_id, tempUser);
+            document.location.href = "/userpage";
+        }
+
     };
 
     const handleChange = (e) => {
@@ -186,7 +195,7 @@ const UserPage = () => {
                                     <div className='user-info-item' id='prefs'>
                                         <ul>
                                             {preferences.map(tag => ( //user_id's preferences
-                                                <li key={tag.value}>{tag.label}</li>
+                                                <li key={tag.label}>{tag.label}, {tag.weight}</li>
                                             ))}
                                         </ul>
                                     </div>

@@ -1,7 +1,17 @@
 import TravelLocation from "./TravelLocation.js";
 import PropTypes from "prop-types";
 import './LocationCard.css';
-
+function generateSymbols(price) {
+    if (price === 1) {
+        return "$";
+    } else if (price === 2) {
+        return "$$";
+    } else if (price === 3) {
+        return "$$$";
+    } else {
+        return "$$";
+    }
+}
 const LocationCard = (props) => {
     const { location } = props;
 
@@ -20,7 +30,7 @@ const LocationCard = (props) => {
             </div>
             <div className='countryName'>{location.country}</div>
             <div className='weather'>{location.weather}</div>
-            <div className='price'>{location.price}</div>
+            <div className='price'>{generateSymbols(location.price)}</div>
         </div>
     )
 }

@@ -8,6 +8,7 @@ const NavBar = () => {
 
     const handleLogout = async () => {
         await logoutUser();
+        document.location.href = "/";
     }
 
     const toggleHelp = () => {
@@ -31,7 +32,7 @@ const NavBar = () => {
                     <>
                         <a href={'/login'}>Log in</a>
                         <a href={'/register'}>Register</a>
-                        <a href={'/enviroment'}>Environment Information</a>
+                        <a href={'/environment'}>Environment Information</a>
                         <a role="button" onClick={toggleHelp}>Help</a>
                     </>
                 )}
