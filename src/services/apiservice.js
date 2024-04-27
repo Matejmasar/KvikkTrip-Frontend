@@ -1,15 +1,5 @@
 import TravelLocation from "../components/TravelLocation.js";
-function generateSymbols(price) {
-    if (price === 1) {
-        return "$";
-    } else if (price === 2) {
-        return "$$";
-    } else if (price === 3) {
-        return "$$$";
-    } else {
-        return "$$";
-    }
-}
+
 export const getRecommendations = async (filters) => {
     const picture = '/ny 1.png';
 
@@ -36,7 +26,7 @@ export const getRecommendations = async (filters) => {
     } else {
         results = await getLocations();
     }
-    results = results.map(result => new TravelLocation(result.name, picture, result.country, "Sun", generateSymbols(result.price)));
+    results = results.map(result => new TravelLocation(result.name, picture, result.country, "Sun", result.price));
 
     return results;
 }
@@ -71,6 +61,21 @@ export const getLocations = async () => {
     }
 }
 
+export const getUserLocations = async (userId) => {
+    const apiUrl = `http://127.0.0.1:5000/events/${userId}`;
+
+    try {
+        const response = await fetch(apiUrl);
+
+        if (response.status === 200) {
+            const data = await response.json();
+            return data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const getUser = async (userId) => {
     const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/${userId}`;
 
@@ -87,7 +92,7 @@ export const getUser = async (userId) => {
 }
 
 export const updateUser = async (userId, userData) => {
-    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/${userId}`;
+    const apiUrl = `http://127.0.0.1:5000/user/${userId}`;
     return fetch(apiUrl, {
         method: 'PUT',
         headers: {
@@ -104,8 +109,7 @@ export const updateUser = async (userId, userData) => {
 
 
 export const getPreferences = async (userId) => {
-    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/preference/${userId}`;
-
+    const apiUrl = `http://127.0.0.1:5000/user/preference/${userId}`;
     try {
         const response = await fetch(apiUrl);
 

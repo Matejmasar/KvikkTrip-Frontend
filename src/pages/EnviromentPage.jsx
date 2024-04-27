@@ -10,7 +10,7 @@ const EnviromentPage = () => {
             <div className='page-container1'>
                 <div className="grid-container1">
                     <div className='gridItem1'>
-                        <h1>Enviroment information:</h1>
+                        <h1>Environment information:</h1>
                         <p>
                         In a world increasingly aware of the delicate balance of our ecosystem, Kvikk Trip emerges as a beacon for environmentally conscious travelers. 
                         Our app is driven by a profound commitment to preserving the stunning diversity of our planet for future generations. 
