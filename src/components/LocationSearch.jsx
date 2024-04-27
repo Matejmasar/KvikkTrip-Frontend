@@ -10,6 +10,7 @@ import {getLocations, getTags} from "../services/apiservice.js";
 import PropTypes from "prop-types";
 
 const LocationSearch = ({handleRecommendations}) => {
+    const selectStyles = { menu: styles => ({ ...styles, zIndex: 999 }) };
     const [loading, setLoading] = useState(true);
 
     const [departureDate, setDepartureDate] = useState(dayjs().format('DD/MM/YYYY'));
@@ -54,6 +55,8 @@ const LocationSearch = ({handleRecommendations}) => {
                     defaultValue={location}
                     onChange={setLocation}
                     options={locations}
+                    isClearable={true}
+                    styles={selectStyles}
                 />
                 <Select
                     name="filterSelect"
@@ -62,6 +65,7 @@ const LocationSearch = ({handleRecommendations}) => {
                     isMulti
                     onChange={setFilters}
                     options={tags}
+                    styles={selectStyles}
                 />
             </div>
             <div>
