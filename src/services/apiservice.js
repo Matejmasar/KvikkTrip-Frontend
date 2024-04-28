@@ -139,7 +139,7 @@ export const updatePreferences = async (userId, data) => {
 }
 
 export const getHistory = async (userId) => {
-    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/history/${userId}`;
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/events/${userId}`;
 
     try {
         const response = await fetch(apiUrl);
