@@ -40,18 +40,21 @@ const LocationPage = () => {
 
     return (
         <>
-            <AppHeader/>
-            <div>
-                <p>{locationName}</p>
-                <h1>{location.name}</h1>
-                <img src={``} alt={`${location.name}`} />
-                <p>{location.country}</p>
-                <p>Latitude: {location.latitude}</p>
-                <p>Longitude: {location.longitude}</p>
-                <p>Price: {location.price}</p>
-                <p>Tags: {location.tags}</p>
+        <AppHeader/>
+            <div className='page-container1'>
+                <div className="grid-container1">
+                    <div className='gridItem1'>
+                        <h1>{location.name}</h1>
+                        <img src={``} alt={`${location.name}`} />
+                        <p>{location.country}</p>
+                        <p>Latitude: {location.latitude}</p>
+                        <p>Longitude: {location.longitude}</p>
+                        <p>Price: {location.price}</p>
+                        <p>Tags: {location.tags}</p>
+                    </div>
+                </div>
             </div>
-            <EndBar />
+            <EndBar/>
         </>
     );
 };
