@@ -5,10 +5,7 @@ import TravelLocation from "../components/TravelLocation.js";
 import LocationCard from "../components/LocationCard.jsx";
 import Button from '../components/Button.jsx';
 import {useEffect, useState} from "react";
-import {getTags, getLocations, getUser, updateUser} from '../services/apiservice.js';
-import { updatePreferences } from '../services/apiservice.js';
-// import { getPreferences, getHistory } from '../services/apiservice.js';
-import Select from "react-select";
+import {getTags, getUser, updateUser, getPreferences, updatePreferences, getHistory} from '../services/apiservice.js';
 import {useNavigate} from "react-router-dom";
 
 
@@ -18,9 +15,7 @@ const UserPage = () => {
     const [user, setUser] = useState({ name: '', email: '', username: '' });
     const [tempUser, setTempUser] = useState({ name: '', email: '', username: '' });
     const [editUserMode, setEditUserMode] = useState(false);
-    const [preferences, setPreferences] = useState([]);
     const [selectedPreferences, setSelectedPreferences] = useState([]);
-    const [editPreferencesMode, setEditPreferencesMode] = useState(false);
     const [locs, setLocs] = useState([]);
     const [tags, setTags] = useState([]);
 
@@ -34,17 +29,12 @@ const UserPage = () => {
             setUser(user);
             setTempUser(user);
 
-            const locations = await getLocations();
+            const locations = await getHistory(user_id);
             const transformedLocations = locations.map(loc => new TravelLocation(loc.name, picture, loc.country, loc.weather, loc.price));
-            setLocs(transformedLocations);
-            // const locations = await getHistory(user_id);
-            // const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
-            // setLocs(transformedLocations); 
+            setLocs(transformedLocations); 
 
-            const mockPreferences = await getTags();
-            setPreferences(mockPreferences);
-            // const userPreferences = await getPreferences(user_id);
-            // setSelectedPreferences(userPreferences);
+            const userPreferences = await getPreferences(user_id);
+            setSelectedPreferences(userPreferences);
 
             let tags = await getTags()
             tags = tags.map(item => ({value: item.label, label: item.label}));
@@ -78,16 +68,23 @@ const UserPage = () => {
         }
     };
 
-    const handleEditPreferencesClick = () => {
-        setEditPreferencesMode(true);
+    const [editPreferencesMode, setEditPreferencesMode] = useState(false);
+    const [preferencesInput, setPreferencesInput] = useState('');
+
+    const handlePreferencesChange = (event) => {
+        setPreferencesInput(event.target.value);
     };
 
-    const handlePreferencesChange = selectedOptions => {
-        setSelectedPreferences(selectedOptions);
+    const parsePreferences = (input) => {
+        return input.split(',').map(item => {
+            const [label, weight] = item.trim().split(' ');
+            return { label, weight: parseFloat(weight) };
+        });
     };
 
     const handleSavePreferences = async () => {
-        const preferencesToSave = selectedPreferences.map(pref => pref.value);
+        const preferencesToSave = parsePreferences(preferencesInput);
+        console.log(preferencesToSave)
         try {
             await updatePreferences(user_id, preferencesToSave);
             setEditPreferencesMode(false);
@@ -108,8 +105,8 @@ const UserPage = () => {
                         <div className="user-info-grid">
                         {editUserMode ? (
                             <>
+                            <form onSubmit={handleSubmit}>
                                 <div className='user-info-item' id='name'>
-                                    <form onSubmit={handleSubmit}>
                                         <label htmlFor="name"><h3>Name: </h3> </label>
                                         <input
                                             type="text"
@@ -117,10 +114,8 @@ const UserPage = () => {
                                             name="name"
                                             value={tempUser.name}
                                             onChange={handleChange} />
-                                    </form>
                                 </div>
                                 <div className='user-info-item' id='email'>
-                                    <form onSubmit={handleSubmit}>
                                         <label htmlFor="email"><h3>Email: </h3> </label>
                                         <input
                                             type="email"
@@ -128,10 +123,8 @@ const UserPage = () => {
                                             name="email"
                                             value={tempUser.email}
                                             onChange={handleChange} />
-                                    </form>
                                 </div>
                                 <div className='user-info-item' id='username'>
-                                    <form onSubmit={handleSubmit}>
                                         <label htmlFor="username"><h3>Username: </h3> </label>
                                         <input
                                             type="text"
@@ -139,11 +132,11 @@ const UserPage = () => {
                                             name="username"
                                             value={tempUser.username}
                                             onChange={handleChange} />
-                                    </form>
                                 </div>
                                 <div className='user-info-item' id='button'>
                                     <Button onClick={handleEditUserInfoClick} text={'Save changes'} type="submit" />
                                 </div>
+                            </form>
                             </>
                         ) : (
                             <>
@@ -163,38 +156,43 @@ const UserPage = () => {
                             </>
                         )}
                         </div>
-                        <h1 style={{textAlign: 'center'}}>Personal preferences:</h1>
-                        <div className="preference-grid">
-                            {editPreferencesMode ? (
-                                <>
-                                    <div className='user-info-item' id='prefs'>
-                                        <Select
-                                            name="preferences"
-                                            placeholder="Choose tags"
-                                            defaultValue={preferences}
-                                            isMulti
-                                            onChange={handlePreferencesChange}
-                                            options={tags}
-                                        />
-                                    </div>
-                                    <div className='user-info-item' id='button2'>
-                                        <Button onClick={handleSavePreferences} text="Save Preferences" />
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <div className='user-info-item' id='prefs'>
-                                        <ul>
-                                            {preferences.map(tag => ( //user_id's preferences
-                                                <li key={tag.value}>{tag.label}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                    <div className='user-info-item' id='button2'>
-                                        <Button onClick={handleEditPreferencesClick} text="EDIT PREFERENCES" />
-                                    </div>
-                                </>
-                            )}
+                        <div style={{textAlign: 'center'}}>
+                            <h1>Personal Preferences:</h1>
+                            <div className="preference-grid">
+                                {editPreferencesMode ? (
+                                    <>
+                                        <div className='user-info-item' id='prefs'>
+                                            <ul>
+                                                {tags.map(tag => (
+                                                    <li key={tag.label}>{`${tag.label}`}</li>
+                                                ))}
+                                            </ul>
+                                            <input
+                                                type="text"
+                                                value={preferencesInput}
+                                                onChange={handlePreferencesChange}
+                                                placeholder="e.g., 'ski 0.5, party 0.6'"
+                                            />
+                                        </div>
+                                        <div className='user-info-item' id='button2'>
+                                            <Button onClick={handleSavePreferences} text='Save Preferences'></Button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className='user-info-item' id='prefs'>
+                                            <ul>
+                                                {selectedPreferences.map(tag => (
+                                                    <li key={tag.label}>{`${tag.label} (Weight: ${tag.weight})`}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div className='user-info-item' id='button2'>
+                                            <Button onClick={() => setEditPreferencesMode(true)} text='EDIT PREFERENCES'></Button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="gridItem" style={{marginLeft: '10px'}}>
