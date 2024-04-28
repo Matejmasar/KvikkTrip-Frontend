@@ -10,6 +10,7 @@ import { updatePreferences } from '../services/apiservice.js';
 // import { getPreferences, getHistory } from '../services/apiservice.js';
 import Select from "react-select";
 import {useNavigate} from "react-router-dom";
+import Preferences from "../components/Preferences.jsx";
 
 
 const UserPage = () => {
@@ -42,7 +43,6 @@ const UserPage = () => {
             // setLocs(transformedLocations); 
 
             const mockPreferences = await getPreferences(user_id);
-            console.log(mockPreferences)
             setPreferences(mockPreferences);
             // const userPreferences = await getPreferences(user_id);
             // setSelectedPreferences(userPreferences);
@@ -176,18 +176,8 @@ const UserPage = () => {
                         <div className="preference-grid">
                             {editPreferencesMode ? (
                                 <>
-                                    <div className='user-info-item' id='prefs'>
-                                        <Select
-                                            name="preferences"
-                                            placeholder="Choose tags"
-                                            defaultValue={preferences}
-                                            isMulti
-                                            onChange={handlePreferencesChange}
-                                            options={tags}
-                                        />
-                                    </div>
-                                    <div className='user-info-item' id='button2'>
-                                        <Button onClick={handleSavePreferences} text="Save Preferences" />
+                                    <div className="prefPopupContainer">
+                                        <Preferences preferences={preferences} tags={tags} userid={user_id}/>
                                     </div>
                                 </>
                             ) : (
