@@ -5,9 +5,8 @@ import TravelLocation from "../components/TravelLocation.js";
 import LocationCard from "../components/LocationCard.jsx";
 import Button from '../components/Button.jsx';
 import {useEffect, useState} from "react";
-import {getTags, getLocations, getUser, updateUser, getPreferences, getUserLocations} from '../services/apiservice.js';
+import {getTags, getLocations, getUser, updateUser, getPreferences, getUserLocations, getHistory} from '../services/apiservice.js';
 import { updatePreferences } from '../services/apiservice.js';
-// import { getPreferences, getHistory } from '../services/apiservice.js';
 import Select from "react-select";
 import {useNavigate} from "react-router-dom";
 import Preferences from "../components/Preferences.jsx";
@@ -35,17 +34,12 @@ const UserPage = () => {
             setUser(user);
             setTempUser(user);
 
-            const locations = await getUserLocations(user_id);
+            const locations = await getHistory(user_id);
             const transformedLocations = locations.map(loc => new TravelLocation(loc.name, picture, loc.country, loc.weather, loc.price));
             setLocs(transformedLocations);
-            // const locations = await getHistory(user_id);
-            // const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
-            // setLocs(transformedLocations); 
 
             const mockPreferences = await getPreferences(user_id);
             setPreferences(mockPreferences);
-            // const userPreferences = await getPreferences(user_id);
-            // setSelectedPreferences(userPreferences);
 
             let tags = await getTags()
             tags = tags.map(item => ({value: item.label, label: item.label}));
@@ -57,15 +51,7 @@ const UserPage = () => {
     }, [user_id]);
 
     const handleEditUserInfoClick = () => {
-        if(editUserMode === false){
-            setEditUserMode(true);
-        }
-        else{
-            setEditUserMode(false);
-            updateUser(user_id, tempUser);
-            document.location.href = "/userpage";
-        }
-
+        setEditUserMode(true);
     };
 
     const handleChange = (e) => {
@@ -91,21 +77,6 @@ const UserPage = () => {
         setEditPreferencesMode(true);
     };
 
-    const handlePreferencesChange = selectedOptions => {
-        setSelectedPreferences(selectedOptions);
-    };
-
-    const handleSavePreferences = async () => {
-        const preferencesToSave = selectedPreferences.map(pref => pref.value);
-        try {
-            await updatePreferences(user_id, preferencesToSave);
-            setEditPreferencesMode(false);
-        } catch (error) {
-            console.error('Error updating preferences:', error);
-        }
-    };
-
-
     return (
         <>
             <AppHeader/>
@@ -117,42 +88,30 @@ const UserPage = () => {
                         <div className="user-info-grid">
                         {editUserMode ? (
                             <>
-                                <div className='user-info-item' id='name'>
-                                    <form onSubmit={handleSubmit}>
-                                        <label htmlFor="name"><h3>Name: </h3> </label>
-                                        <input
-                                            type="text"
-                                            id="name"
-                                            name="name"
-                                            value={tempUser.name}
-                                            onChange={handleChange} />
-                                    </form>
-                                </div>
-                                <div className='user-info-item' id='email'>
-                                    <form onSubmit={handleSubmit}>
-                                        <label htmlFor="email"><h3>Email: </h3> </label>
-                                        <input
-                                            type="email"
-                                            id="email"
-                                            name="email"
-                                            value={tempUser.email}
-                                            onChange={handleChange} />
-                                    </form>
-                                </div>
-                                <div className='user-info-item' id='username'>
-                                    <form onSubmit={handleSubmit}>
-                                        <label htmlFor="username"><h3>Username: </h3> </label>
-                                        <input
-                                            type="text"
-                                            id="username"
-                                            name="username"
-                                            value={tempUser.username}
-                                            onChange={handleChange} />
-                                    </form>
-                                </div>
-                                <div className='user-info-item' id='button'>
+                                <form onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
+                                    <label htmlFor="name"><h3>Name: </h3> </label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        value={tempUser.name}
+                                        onChange={handleChange} />
+                                    <label htmlFor="email"><h3>Email: </h3> </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={tempUser.email}
+                                        onChange={handleChange} />
+                                    <label htmlFor="username"><h3>Username: </h3> </label>
+                                    <input
+                                        type="text"
+                                        id="username"
+                                        name="username"
+                                        value={tempUser.username}
+                                        onChange={handleChange} />
                                     <Button onClick={handleEditUserInfoClick} text={'Save changes'} type="submit" />
-                                </div>
+                                </form>
                             </>
                         ) : (
                             <>
@@ -184,7 +143,7 @@ const UserPage = () => {
                                 <>
                                     <div className='user-info-item' id='prefs'>
                                         <ul>
-                                            {preferences.map(tag => ( //user_id's preferences
+                                            {preferences.map(tag => (
                                                 <li key={tag.label}>{tag.label}, {tag.weight}</li>
                                             ))}
                                         </ul>
