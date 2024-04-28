@@ -5,10 +5,7 @@ import TravelLocation from "../components/TravelLocation.js";
 import LocationCard from "../components/LocationCard.jsx";
 import Button from '../components/Button.jsx';
 import {useEffect, useState} from "react";
-import {getTags, getLocations, getUser, updateUser, getPreferences, getUserLocations} from '../services/apiservice.js';
-import { updatePreferences } from '../services/apiservice.js';
-// import { getPreferences, getHistory } from '../services/apiservice.js';
-import Select from "react-select";
+import {getTags, getUser, updateUser, getPreferences, updatePreferences, getHistory} from '../services/apiservice.js';
 import {useNavigate} from "react-router-dom";
 import Preferences from "../components/Preferences.jsx";
 
@@ -19,9 +16,7 @@ const UserPage = () => {
     const [user, setUser] = useState({ name: '', email: '', username: '' });
     const [tempUser, setTempUser] = useState({ name: '', email: '', username: '' });
     const [editUserMode, setEditUserMode] = useState(false);
-    const [preferences, setPreferences] = useState([]);
     const [selectedPreferences, setSelectedPreferences] = useState([]);
-    const [editPreferencesMode, setEditPreferencesMode] = useState(false);
     const [locs, setLocs] = useState([]);
     const [tags, setTags] = useState([]);
 
@@ -35,12 +30,9 @@ const UserPage = () => {
             setUser(user);
             setTempUser(user);
 
-            const locations = await getUserLocations(user_id);
+            const locations = await getHistory(user_id);
             const transformedLocations = locations.map(loc => new TravelLocation(loc.name, picture, loc.country, loc.weather, loc.price));
-            setLocs(transformedLocations);
-            // const locations = await getHistory(user_id);
-            // const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
-            // setLocs(transformedLocations); 
+            setLocs(transformedLocations); 
 
             const mockPreferences = await getPreferences(user_id);
             setPreferences(mockPreferences);
@@ -57,14 +49,7 @@ const UserPage = () => {
     }, [user_id]);
 
     const handleEditUserInfoClick = () => {
-        if(editUserMode === false){
-            setEditUserMode(true);
-        }
-        else{
-            setEditUserMode(false);
-            updateUser(user_id, tempUser);
-            document.location.href = "/userpage";
-        }
+        setEditUserMode(true);
 
     };
 
@@ -87,16 +72,23 @@ const UserPage = () => {
         }
     };
 
-    const handleEditPreferencesClick = () => {
-        setEditPreferencesMode(true);
+    const [editPreferencesMode, setEditPreferencesMode] = useState(false);
+    const [preferencesInput, setPreferencesInput] = useState('');
+
+    const handlePreferencesChange = (event) => {
+        setPreferencesInput(event.target.value);
     };
 
-    const handlePreferencesChange = selectedOptions => {
-        setSelectedPreferences(selectedOptions);
+    const parsePreferences = (input) => {
+        return input.split(',').map(item => {
+            const [label, weight] = item.trim().split(' ');
+            return { label, weight: parseFloat(weight) };
+        });
     };
 
     const handleSavePreferences = async () => {
-        const preferencesToSave = selectedPreferences.map(pref => pref.value);
+        const preferencesToSave = parsePreferences(preferencesInput);
+        console.log(preferencesToSave)
         try {
             await updatePreferences(user_id, preferencesToSave);
             setEditPreferencesMode(false);
@@ -117,8 +109,8 @@ const UserPage = () => {
                         <div className="user-info-grid">
                         {editUserMode ? (
                             <>
+                            <form onSubmit={handleSubmit}>
                                 <div className='user-info-item' id='name'>
-                                    <form onSubmit={handleSubmit}>
                                         <label htmlFor="name"><h3>Name: </h3> </label>
                                         <input
                                             type="text"
@@ -126,10 +118,8 @@ const UserPage = () => {
                                             name="name"
                                             value={tempUser.name}
                                             onChange={handleChange} />
-                                    </form>
                                 </div>
                                 <div className='user-info-item' id='email'>
-                                    <form onSubmit={handleSubmit}>
                                         <label htmlFor="email"><h3>Email: </h3> </label>
                                         <input
                                             type="email"
@@ -137,10 +127,8 @@ const UserPage = () => {
                                             name="email"
                                             value={tempUser.email}
                                             onChange={handleChange} />
-                                    </form>
                                 </div>
                                 <div className='user-info-item' id='username'>
-                                    <form onSubmit={handleSubmit}>
                                         <label htmlFor="username"><h3>Username: </h3> </label>
                                         <input
                                             type="text"
@@ -148,11 +136,11 @@ const UserPage = () => {
                                             name="username"
                                             value={tempUser.username}
                                             onChange={handleChange} />
-                                    </form>
                                 </div>
                                 <div className='user-info-item' id='button'>
                                     <Button onClick={handleEditUserInfoClick} text={'Save changes'} type="submit" />
                                 </div>
+                            </form>
                             </>
                         ) : (
                             <>
@@ -172,6 +160,7 @@ const UserPage = () => {
                             </>
                         )}
                         </div>
+
                         <h1 style={{textAlign: 'center'}}>Personal preferences:</h1>
                         <div className="preference-grid">
                             {editPreferencesMode ? (
@@ -194,6 +183,7 @@ const UserPage = () => {
                                     </div>
                                 </>
                             )}
+
                         </div>
                     </div>
                     <div className="gridItem" style={{marginLeft: '10px'}}>
