@@ -170,6 +170,7 @@ const UserPage = () => {
                                 {editPreferencesMode ? (
                                     <>
                                         <div className='user-info-item' id='prefs'>
+                                            <h3>Tags to choose from: </h3>
                                             <ul>
                                                 {tags.map(tag => (
                                                     <li key={tag.label}>{`${tag.label}`}</li>
