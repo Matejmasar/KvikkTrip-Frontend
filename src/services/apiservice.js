@@ -62,7 +62,7 @@ export const getLocations = async () => {
 }
 
 export const getUserLocations = async (userId) => {
-    const apiUrl = `http://127.0.0.1:5000/events/${userId}`;
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/events/${userId}`;
 
     try {
         const response = await fetch(apiUrl);
@@ -170,7 +170,7 @@ export const AIHelp = async (question) => {
         const response = await fetch(apiUrl, requestOpt);
 
         if (response.status === 200) {
-            const data = response.json();
+            const data = response.text()
             console.log(data);
             return data;
         }
