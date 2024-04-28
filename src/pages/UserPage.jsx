@@ -46,7 +46,15 @@ const UserPage = () => {
     }, [user_id]);
 
     const handleEditUserInfoClick = () => {
-        setEditUserMode(true);
+        if(editUserMode === false){
+            setEditUserMode(true);
+        }
+        else{
+            setEditUserMode(false);
+            updateUser(user_id, tempUser);
+            document.location.href = "/userpage";
+        }
+
     };
 
     const handleChange = (e) => {

@@ -18,10 +18,12 @@ describe('Navbar', () => {
         const loginRef = screen.getByRole('link', {name: 'Log in'});
         const registerRef = screen.getByRole('link', {name: 'Register'});
         const environmentRef = screen.getByRole('link', {name: 'Environment Information'});
+        const helpButton = screen.getByRole('button', {name: 'Help'});
 
         expect(loginRef).toBeInTheDocument();
         expect(registerRef).toBeInTheDocument();
         expect(environmentRef).toBeInTheDocument();
+        expect(helpButton).toBeInTheDocument();
     });
 
     it('should render correctly when logged in', async () => {
@@ -33,11 +35,13 @@ describe('Navbar', () => {
         await waitFor(() => {
             const userPageRef = screen.getByRole('link', {name: 'Profile Information'});
             const environmentRef = screen.getByRole('link', {name: 'Environment Information'});
+            const helpButton = screen.getByRole('button', {name: 'Help'});
             const logoutRef = screen.getByText("Log out");
 
             expect(userPageRef).toBeInTheDocument();
             expect(environmentRef).toBeInTheDocument();
             expect(logoutRef).toBeInTheDocument();
+            expect(helpButton).toBeInTheDocument();
         });
 
         localStorage.clear();
@@ -77,5 +81,19 @@ describe('Navbar', () => {
            fireEvent.keyDown(logoutRef, {key: 'f'});
         });
         expect(logoutUser).toHaveBeenCalled();
-    }) ;
+    });
+
+    it('should open help popup with help button', () => {
+        render(<NavBar/>);
+
+        const helpButton = screen.getByRole('button', {name: 'Help'});
+        expect(helpButton).toBeInTheDocument();
+
+        act(() => {
+            fireEvent.click(helpButton);
+        });
+
+        const questionButton = screen.getByRole('button', {name: 'Ask question'});
+        expect(questionButton).toBeInTheDocument();
+    })
 });
