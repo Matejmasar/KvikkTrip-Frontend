@@ -46,14 +46,7 @@ const UserPage = () => {
     }, [user_id]);
 
     const handleEditUserInfoClick = () => {
-        if(editUserMode === false){
-            setEditUserMode(true);
-        }
-        else{
-            setEditUserMode(false);
-            updateUser(user_id, tempUser);
-            document.location.href = "/userpage";
-        }
+        setEditUserMode(true);
 
     };
 
@@ -169,13 +162,15 @@ const UserPage = () => {
                             <div className="preference-grid">
                                 {editPreferencesMode ? (
                                     <>
-                                        <div className='user-info-item' id='prefs'>
+                                        <div className='user-info-item' id='tags'>
                                             <h3>Tags to choose from: </h3>
                                             <ul>
                                                 {tags.map(tag => (
                                                     <li key={tag.label}>{`${tag.label}`}</li>
                                                 ))}
                                             </ul>
+                                        </div>    
+                                        <div className='user-info-item' id='prefs'>
                                             <input
                                                 type="text"
                                                 value={preferencesInput}
@@ -189,7 +184,7 @@ const UserPage = () => {
                                     </>
                                 ) : (
                                     <>
-                                        <div className='user-info-item' id='prefs'>
+                                        <div className='user-info-item' id='tags'>
                                             <ul>
                                                 {selectedPreferences.map(tag => (
                                                     <li key={tag.label}>{`${tag.label} (Weight: ${tag.weight})`}</li>
