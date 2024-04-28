@@ -56,13 +56,13 @@ const UserPage = () => {
 
     }, [user_id]);
 
-    const handleEditUserInfoClick = () => {
+    const handleEditUserInfoClick = async () => {
         if(editUserMode === false){
             setEditUserMode(true);
         }
         else{
             setEditUserMode(false);
-            updateUser(user_id, tempUser);
+            await updateUser(user_id, tempUser);
             document.location.href = "/userpage";
         }
 
