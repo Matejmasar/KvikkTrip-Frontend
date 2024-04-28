@@ -45,7 +45,7 @@ const LocationPage = () => {
                 <div className="grid-container1">
                     <div className='gridItem1'>
                         <h1>{location.name}</h1>
-                        <img src={`/ny 1.pn`} alt={`${location.name}`} />
+                        <img src={`/ny 1.png`} alt={`${location.name}`} />
                         <p>{location.country}</p>
                         <p>Latitude: {location.latitude}</p>
                         <p>Longitude: {location.longitude}</p>
