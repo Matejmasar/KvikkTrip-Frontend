@@ -92,7 +92,7 @@ export const getUser = async (userId) => {
 }
 
 export const updateUser = async (userId, userData) => {
-    const apiUrl = `http://127.0.0.1:5000/user/${userId}`;
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/${userId}`;
     return fetch(apiUrl, {
         method: 'PUT',
         headers: {
@@ -109,7 +109,7 @@ export const updateUser = async (userId, userData) => {
 
 
 export const getPreferences = async (userId) => {
-    const apiUrl = `http://127.0.0.1:5000/user/preference/${userId}`;
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/preference/${userId}`;
     try {
         const response = await fetch(apiUrl);
 
@@ -139,7 +139,7 @@ export const updatePreferences = async (userId, data) => {
 }
 
 export const getHistory = async (userId) => {
-    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/history/${userId}`;
+    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/events/${userId}`;
 
     try {
         const response = await fetch(apiUrl);
