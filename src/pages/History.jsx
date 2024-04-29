@@ -5,7 +5,7 @@ import TravelLocation from "../components/TravelLocation.js";
 import LocationCard from "../components/LocationCard.jsx";
 import Button from '../components/Button.jsx';
 import {useEffect, useState} from "react";
-import {getHistory, getLocations} from "../services/apiservice.js"
+import {getHistory} from "../services/apiservice.js"
 // import {getHistory} from "../services/apiservice.js"
 import {useNavigate} from "react-router-dom";
 

@@ -46,7 +46,6 @@ export const getRecommendations = async (filters) => {
         }
     }
     results = results.map(result => new TravelLocation(result.name, picture, result.country, "Sun", result.price));
-
     return results;
 }
 
