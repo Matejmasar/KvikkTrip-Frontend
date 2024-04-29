@@ -2,13 +2,18 @@ import {fireEvent, render, screen} from "@testing-library/react";
 import {vi} from "vitest";
 import LocationCard from "../src/components/LocationCard.jsx";
 import TravelLocation from "../src/components/TravelLocation.js";
+import {BrowserRouter} from "react-router-dom";
 
 describe('LocationCard', () => {
     it('renders a LocationCard component', () => {
         const picture = '/ny 1.png';
         const testLocation = new TravelLocation("Bergen", picture,"Norway", "Rain", '$$');
 
-        render(<LocationCard location={testLocation}/>)
+        render(
+            <BrowserRouter>
+                <LocationCard location={testLocation}/>
+            </BrowserRouter>
+        );
 
         const locName = screen.getByText('Bergen');
         const countryName = screen.getByText('Norway');
@@ -25,7 +30,11 @@ describe('LocationCard', () => {
         const picture = '/ny 1.png';
         const testLocation = new TravelLocation("Bergen", picture,"Norway", "Rain", '$$');
 
-        render(<LocationCard location={testLocation}/>)
+        render(
+            <BrowserRouter>
+                <LocationCard location={testLocation}/>
+            </BrowserRouter>
+        );
 
         const cardButton = screen.getByRole('button');
         const handleClickMock = vi.fn();
