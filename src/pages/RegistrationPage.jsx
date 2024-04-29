@@ -1,11 +1,10 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {registerUser} from "../services/loginservice.js";
 import "./RegistrationPage.css";
 import AppHeader from "../components/AppHeader.jsx";
 import EndBar from "../components/EndBar.jsx";
-import flagsmith from 'flagsmith';
-import {useFlags, useFlagsmith} from "flagsmith/react.js";
+import {useFlagsmith} from "flagsmith/react.js";
 
 const RegistrationPage = () => {
     const [userData, setUserData] = useState({
@@ -19,7 +18,6 @@ const RegistrationPage = () => {
     const [goodPassword, setGoodPassword] = useState(true);
 
     const navigator = useNavigate();
-    const flags = useFlags(['registration_enabled']);
     const flagsmith = useFlagsmith();
 
     const handleChange = (event) => {

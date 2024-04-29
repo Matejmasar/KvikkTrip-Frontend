@@ -5,8 +5,11 @@ import Select from "react-select";
 import {updatePreferences} from "../services/apiservice.js";
 
 const Preferences = (props) => {
+    // eslint-disable-next-line react/prop-types
     const [preferences, setPreferences] = useState(props.preferences);
+    // eslint-disable-next-line react/prop-types
     const tags = props.tags.filter(tag => !preferences.find(pref => pref.label === tag.label));
+    // eslint-disable-next-line react/prop-types
     const userid = props.userid;
     const [selectedTag, setSelectedTag] = useState(null);
     const [inputValue, setInputValue] = useState(0.1);
@@ -15,7 +18,7 @@ const Preferences = (props) => {
         setPreferences(updatedPreferences);
     };
     const customStyles = {
-        menu: (provided, state) => ({
+        menu: (provided) => ({
             ...provided,
             position: 'absolute',
             left: '0',
@@ -50,6 +53,7 @@ const Preferences = (props) => {
         }
     }
     return(
+        // eslint-disable-next-line react/no-unknown-property
         <div className="prefPopup" align='center'>
             <h1>Edit your preferences</h1>
             <div>

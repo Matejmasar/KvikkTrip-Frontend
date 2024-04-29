@@ -5,10 +5,9 @@ import TravelLocation from "../components/TravelLocation.js";
 import LocationCard from "../components/LocationCard.jsx";
 import Button from '../components/Button.jsx';
 import {useEffect, useState} from "react";
-import {getTags, getLocations, getUser, updateUser, getPreferences, getUserLocations} from '../services/apiservice.js';
+import {getTags, getUser, updateUser, getPreferences, getUserLocations} from '../services/apiservice.js';
 import { updatePreferences } from '../services/apiservice.js';
 // import { getPreferences, getHistory } from '../services/apiservice.js';
-import Select from "react-select";
 import {useNavigate} from "react-router-dom";
 import Preferences from "../components/Preferences.jsx";
 
@@ -91,10 +90,12 @@ const UserPage = () => {
         setEditPreferencesMode(true);
     };
 
+    // eslint-disable-next-line no-unused-vars
     const handlePreferencesChange = selectedOptions => {
         setSelectedPreferences(selectedOptions);
     };
 
+    // eslint-disable-next-line no-unused-vars
     const handleSavePreferences = async () => {
         const preferencesToSave = selectedPreferences.map(pref => pref.value);
         try {

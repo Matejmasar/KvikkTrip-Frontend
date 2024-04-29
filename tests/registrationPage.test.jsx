@@ -3,18 +3,38 @@ import {vi} from "vitest";
 import RegistrationPage from "../src/pages/RegistrationPage.jsx";
 import {BrowserRouter} from "react-router-dom";
 import {registerUser} from "../src/services/loginservice.js";
+import flagsmith from 'flagsmith';
+import {FlagsmithProvider} from "flagsmith/react";
 
 vi.mock("../src/services/loginservice.js", () => ({
     registerUser: vi.fn()
 }));
 
+vi.mock('flagsmith', () => {
+    const originalModule = vi.importActual('flagsmith');
+    return {
+        __esModule: true,
+        default: {
+            init: vi.fn(),
+            isFeatureEnabled: vi.fn(() => true),
+            hasFeature: vi.fn(() => true),
+            ...originalModule.default,
+        }
+    };
+});
+
 let usernameInput, nameInput, cityInput, passwordInput, confirmPasswordInput, emailInput, registerButton;
 
-beforeEach(() => {
+beforeEach( async() => {
     render(
-        <BrowserRouter>
-            <RegistrationPage />
-        </BrowserRouter>
+        <FlagsmithProvider options={{
+            environmentID: "f78QNBvL3GicXCJjvC9C9R",
+            cacheFlags: true
+        }} flagsmith={flagsmith}>
+            <BrowserRouter>
+                <RegistrationPage />
+            </BrowserRouter>
+        </FlagsmithProvider>
     )
 
     usernameInput = screen.getByRole('textbox', {name: 'Username:'});
