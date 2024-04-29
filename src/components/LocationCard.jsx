@@ -16,7 +16,6 @@ function generateSymbols(price) {
 const LocationCard = (props) => {
     const { location } = props;
     const navigator = useNavigate();
-    const loc_id = location.name;
 
     const handleClick = () => {
         navigator(`/locations/${encodeURIComponent(location.name)}`)

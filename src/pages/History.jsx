@@ -6,6 +6,7 @@ import LocationCard from "../components/LocationCard.jsx";
 import Button from '../components/Button.jsx';
 import {useEffect, useState} from "react";
 import {getHistory} from "../services/apiservice.js"
+// import {getHistory} from "../services/apiservice.js"
 import {useNavigate} from "react-router-dom";
 
 
@@ -21,7 +22,7 @@ const History = () => {
     useEffect(() => {
         const fetchUser = async () => {
             const locations = await getHistory(user_id);
-            const transformedLocations = locations.map(loc => new TravelLocation(loc.name, picture, loc.country, loc.weather, loc.pricel));
+            const transformedLocations = locations.map(loc => new TravelLocation(loc.name, picture, loc.country, loc.weather, loc.price));
             setLocs(transformedLocations);
         };
         fetchUser().catch(error => console.error('Error fetching user:', error));
