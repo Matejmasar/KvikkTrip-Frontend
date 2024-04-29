@@ -24,15 +24,19 @@ export const getRecommendations = async (filters) => {
             console.log(error);
         }
     } else {
-        const searchUrl = 'https://bold-amandi-kvikktrip.koyeb.app/locations/recommendations';
-        const requestOpts = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
+        if (localStorage.getItem('userId') !== null) {
+            const searchUrl = 'https://bold-amandi-kvikktrip.koyeb.app/locations/recommendations';
+            const requestOpts = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            }
+            results = await fetch(searchUrl, requestOpts);
+        } else {
+            results = await getLocations();
         }
-        results = await fetch(searchUrl, requestOpts);
     }
     results = results.map(result => new TravelLocation(result.name, picture, result.country, "Sun", result.price));
 
