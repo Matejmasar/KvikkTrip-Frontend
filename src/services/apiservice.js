@@ -24,7 +24,15 @@ export const getRecommendations = async (filters) => {
             console.log(error);
         }
     } else {
-        results = await getLocations();
+        const searchUrl = 'https://bold-amandi-kvikktrip.koyeb.app/locations/recommendations';
+        const requestOpts = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        }
+        results = await fetch(searchUrl, requestOpts);
     }
     results = results.map(result => new TravelLocation(result.name, picture, result.country, "Sun", result.price));
 
@@ -65,7 +73,10 @@ export const getUserLocations = async (userId) => {
     const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/events/${userId}`;
 
     try {
-        const response = await fetch(apiUrl);
+        const requestOpts = {
+            credentials: 'include'
+        }
+        const response = await fetch(apiUrl, requestOpts);
 
         if (response.status === 200) {
             const data = await response.json();
@@ -80,7 +91,10 @@ export const getUser = async (userId) => {
     const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/${userId}`;
 
     try {
-        const response = await fetch(apiUrl);
+        const requestOpts = {
+            credentials: 'include'
+        }
+        const response = await fetch(apiUrl, requestOpts);
 
         if (response.status === 200) {
             const data = await response.json();
@@ -98,7 +112,8 @@ export const updateUser = async (userId, userData) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData)
+        body: JSON.stringify(userData),
+        credentials: 'include'
     }).then(response => {
         if (response.ok) {
             return response.json();
@@ -111,7 +126,10 @@ export const updateUser = async (userId, userData) => {
 export const getPreferences = async (userId) => {
     const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/preference/${userId}`;
     try {
-        const response = await fetch(apiUrl);
+        const requestOpts = {
+            credentials: 'include'
+        }
+        const response = await fetch(apiUrl, requestOpts);
 
         if (response.status === 200) {
             const data = await response.json();
@@ -129,7 +147,8 @@ export const updatePreferences = async (userId, data) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        credentials: 'include'
     }).then(response => {
         if (response.ok) {
             return response.json();
@@ -142,7 +161,10 @@ export const getHistory = async (userId) => {
     const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/events/${userId}`;
 
     try {
-        const response = await fetch(apiUrl);
+        const requestOpts = {
+            credentials: 'include'
+        }
+        const response = await fetch(apiUrl, requestOpts);
 
         if (response.status === 200) {
             const data = await response.json();
