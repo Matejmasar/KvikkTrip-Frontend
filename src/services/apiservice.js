@@ -33,7 +33,14 @@ export const getRecommendations = async (filters) => {
                 },
                 credentials: 'include'
             }
-            results = await fetch(searchUrl, requestOpts);
+            try {
+                results = await fetch(searchUrl, requestOpts);
+                if (results.status === 200) {
+                    results = await results.json();
+                }
+            } catch (error) {
+                console.log(error);
+            }
         } else {
             results = await getLocations();
         }
