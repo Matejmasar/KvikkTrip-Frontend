@@ -61,21 +61,6 @@ export const getLocations = async () => {
     }
 }
 
-export const getUserLocations = async (userId) => {
-    const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/events/${userId}`;
-
-    try {
-        const response = await fetch(apiUrl);
-
-        if (response.status === 200) {
-            const data = await response.json();
-            return data;
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 export const getUser = async (userId) => {
     const apiUrl = `https://bold-amandi-kvikktrip.koyeb.app/user/${userId}`;
 

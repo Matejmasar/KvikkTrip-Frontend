@@ -1,3 +1,4 @@
+
 import './UserPage.css';
 import AppHeader from "../components/AppHeader.jsx";
 import EndBar from "../components/EndBar.jsx";
@@ -5,7 +6,7 @@ import TravelLocation from "../components/TravelLocation.js";
 import LocationCard from "../components/LocationCard.jsx";
 import Button from '../components/Button.jsx';
 import {useEffect, useState} from "react";
-import {getTags, getUser, updateUser, getPreferences, updatePreferences, getHistory} from '../services/apiservice.js';
+import {getTags, getUser, updateUser, getPreferences, getHistory} from '../services/apiservice.js';
 import {useNavigate} from "react-router-dom";
 import Preferences from "../components/Preferences.jsx";
 
@@ -17,6 +18,7 @@ const UserPage = () => {
     const [tempUser, setTempUser] = useState({ name: '', email: '', username: '' });
     const [editUserMode, setEditUserMode] = useState(false);
     const [selectedPreferences, setSelectedPreferences] = useState([]);
+    const [editPreferencesMode, setEditPreferencesMode] = useState(false);
     const [locs, setLocs] = useState([]);
     const [tags, setTags] = useState([]);
 
@@ -33,14 +35,9 @@ const UserPage = () => {
             const locations = await getHistory(user_id);
             const transformedLocations = locations.map(loc => new TravelLocation(loc.name, picture, loc.country, loc.weather, loc.price));
             setLocs(transformedLocations);
-            // const locations = await getHistory(user_id);
-            // const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
-            // setLocs(transformedLocations); 
 
-            const mockPreferences = await getPreferences(user_id);
-            setPreferences(mockPreferences);
-            // const userPreferences = await getPreferences(user_id);
-            // setSelectedPreferences(userPreferences);
+            const userPreferences = await getPreferences(user_id);
+            setSelectedPreferences(userPreferences);
 
             let tags = await getTags()
             tags = tags.map(item => ({value: item.label, label: item.label}));
@@ -82,31 +79,9 @@ const UserPage = () => {
         }
     };
 
-    const [editPreferencesMode, setEditPreferencesMode] = useState(false);
-    const [preferencesInput, setPreferencesInput] = useState('');
-
-    const handlePreferencesChange = (event) => {
-        setPreferencesInput(event.target.value);
+    const handleEditPreferencesClick = () => {
+        setEditPreferencesMode(true);
     };
-
-    const parsePreferences = (input) => {
-        return input.split(',').map(item => {
-            const [label, weight] = item.trim().split(' ');
-            return { label, weight: parseFloat(weight) };
-        });
-    };
-
-    const handleSavePreferences = async () => {
-        const preferencesToSave = parsePreferences(preferencesInput);
-        console.log(preferencesToSave)
-        try {
-            await updatePreferences(user_id, preferencesToSave);
-            setEditPreferencesMode(false);
-        } catch (error) {
-            console.error('Error updating preferences:', error);
-        }
-    };
-
 
     return (
         <>
@@ -119,8 +94,8 @@ const UserPage = () => {
                         <div className="user-info-grid">
                         {editUserMode ? (
                             <>
-                            <form onSubmit={handleSubmit}>
                                 <div className='user-info-item' id='name'>
+                                    <form onSubmit={handleSubmit}>
                                         <label htmlFor="name"><h3>Name: </h3> </label>
                                         <input
                                             type="text"
@@ -128,8 +103,10 @@ const UserPage = () => {
                                             name="name"
                                             value={tempUser.name}
                                             onChange={handleChange} />
+                                    </form>
                                 </div>
                                 <div className='user-info-item' id='email'>
+                                    <form onSubmit={handleSubmit}>
                                         <label htmlFor="email"><h3>Email: </h3> </label>
                                         <input
                                             type="email"
@@ -137,8 +114,10 @@ const UserPage = () => {
                                             name="email"
                                             value={tempUser.email}
                                             onChange={handleChange} />
+                                    </form>
                                 </div>
                                 <div className='user-info-item' id='username'>
+                                    <form onSubmit={handleSubmit}>
                                         <label htmlFor="username"><h3>Username: </h3> </label>
                                         <input
                                             type="text"
@@ -146,11 +125,11 @@ const UserPage = () => {
                                             name="username"
                                             value={tempUser.username}
                                             onChange={handleChange} />
+                                    </form>
                                 </div>
                                 <div className='user-info-item' id='button'>
                                     <Button onClick={handleEditUserInfoClick} text={'Save changes'} type="submit" />
                                 </div>
-                            </form>
                             </>
                         ) : (
                             <>
@@ -175,14 +154,14 @@ const UserPage = () => {
                             {editPreferencesMode ? (
                                 <>
                                     <div className="prefPopupContainer">
-                                        <Preferences preferences={preferences} tags={tags} userid={user_id}/>
+                                        <Preferences preferences={selectedPreferences} tags={tags} userid={user_id}/>
                                     </div>
                                 </>
                             ) : (
                                 <>
                                     <div className='user-info-item' id='prefs'>
                                         <ul>
-                                            {preferences.map(tag => ( //user_id's preferences
+                                            {selectedPreferences.map(tag => (
                                                 <li key={tag.label}>{tag.label}, {tag.weight}</li>
                                             ))}
                                         </ul>
