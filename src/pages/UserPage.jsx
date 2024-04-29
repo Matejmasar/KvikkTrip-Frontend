@@ -7,6 +7,7 @@ import Button from '../components/Button.jsx';
 import {useEffect, useState} from "react";
 import {getTags, getUser, updateUser, getPreferences, updatePreferences, getHistory} from '../services/apiservice.js';
 import {useNavigate} from "react-router-dom";
+import Preferences from "../components/Preferences.jsx";
 
 
 const UserPage = () => {
@@ -31,10 +32,15 @@ const UserPage = () => {
 
             const locations = await getHistory(user_id);
             const transformedLocations = locations.map(loc => new TravelLocation(loc.name, picture, loc.country, loc.weather, loc.price));
-            setLocs(transformedLocations); 
+            setLocs(transformedLocations);
+            // const locations = await getHistory(user_id);
+            // const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
+            // setLocs(transformedLocations); 
 
-            const userPreferences = await getPreferences(user_id);
-            setSelectedPreferences(userPreferences);
+            const mockPreferences = await getPreferences(user_id);
+            setPreferences(mockPreferences);
+            // const userPreferences = await getPreferences(user_id);
+            // setSelectedPreferences(userPreferences);
 
             let tags = await getTags()
             tags = tags.map(item => ({value: item.label, label: item.label}));
@@ -45,8 +51,15 @@ const UserPage = () => {
 
     }, [user_id]);
 
-    const handleEditUserInfoClick = () => {
-        setEditUserMode(true);
+    const handleEditUserInfoClick = async () => {
+        if(editUserMode === false){
+            setEditUserMode(true);
+        }
+        else{
+            setEditUserMode(false);
+            await updateUser(user_id, tempUser);
+            document.location.href = "/userpage";
+        }
 
     };
 
@@ -157,46 +170,28 @@ const UserPage = () => {
                             </>
                         )}
                         </div>
-                        <div style={{textAlign: 'center'}}>
-                            <h1>Personal Preferences:</h1>
-                            <div className="preference-grid">
-                                {editPreferencesMode ? (
-                                    <>
-                                        <div className='user-info-item' id='tags'>
-                                            <h3>Tags to choose from: </h3>
-                                            <ul>
-                                                {tags.map(tag => (
-                                                    <li key={tag.label}>{`${tag.label}`}</li>
-                                                ))}
-                                            </ul>
-                                        </div>    
-                                        <div className='user-info-item' id='prefs'>
-                                            <input
-                                                type="text"
-                                                value={preferencesInput}
-                                                onChange={handlePreferencesChange}
-                                                placeholder="e.g., 'ski 0.5, party 0.6'"
-                                            />
-                                        </div>
-                                        <div className='user-info-item' id='button2'>
-                                            <Button onClick={handleSavePreferences} text='Save Preferences'></Button>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className='user-info-item' id='tags'>
-                                            <ul>
-                                                {selectedPreferences.map(tag => (
-                                                    <li key={tag.label}>{`${tag.label} (Weight: ${tag.weight})`}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                        <div className='user-info-item' id='button2'>
-                                            <Button onClick={() => setEditPreferencesMode(true)} text='EDIT PREFERENCES'></Button>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
+                        <h1 style={{textAlign: 'center'}}>Personal preferences:</h1>
+                        <div className="preference-grid">
+                            {editPreferencesMode ? (
+                                <>
+                                    <div className="prefPopupContainer">
+                                        <Preferences preferences={preferences} tags={tags} userid={user_id}/>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className='user-info-item' id='prefs'>
+                                        <ul>
+                                            {preferences.map(tag => ( //user_id's preferences
+                                                <li key={tag.label}>{tag.label}, {tag.weight}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    <div className='user-info-item' id='button2'>
+                                        <Button onClick={handleEditPreferencesClick} text="EDIT PREFERENCES" />
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                     <div className="gridItem" style={{marginLeft: '10px'}}>

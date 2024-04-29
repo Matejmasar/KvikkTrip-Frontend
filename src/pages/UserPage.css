@@ -87,4 +87,21 @@
   #loc-button {
     grid-column: 3;
   }
+.prefPopupContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: #13A1CD;
+    padding: 40px;
+    border: 1px solid black;
+    width: 1000px;
+    height: 600px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+    border-radius: 10px;
+}
+
   

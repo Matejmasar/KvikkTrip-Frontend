@@ -16,10 +16,12 @@ const History = () => {
 
     const user_id = localStorage.getItem('userId');
 
+    const picture = '/ny 1.png';
+
     useEffect(() => {
         const fetchUser = async () => {
             const locations = await getHistory(user_id);
-            const transformedLocations = locations.map(loc => new TravelLocation(loc.name, loc.gps, null, null, null));
+            const transformedLocations = locations.map(loc => new TravelLocation(loc.name, picture, loc.country, loc.weather, loc.pricel));
             setLocs(transformedLocations);
         };
         fetchUser().catch(error => console.error('Error fetching user:', error));

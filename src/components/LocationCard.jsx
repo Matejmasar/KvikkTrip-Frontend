@@ -1,9 +1,7 @@
 import TravelLocation from "./TravelLocation.js";
 import PropTypes from "prop-types";
 import './LocationCard.css';
-
 import {useNavigate} from "react-router-dom";
-
 function generateSymbols(price) {
     if (price === 1) {
         return "$";
@@ -17,11 +15,11 @@ function generateSymbols(price) {
 }
 const LocationCard = (props) => {
     const { location } = props;
-
     const navigator = useNavigate();
+    const loc_id = location.name;
 
     const handleClick = () => {
-        navigator(`/locations/${encodeURIComponent(location.name)}`) 
+        navigator(`/locations/${encodeURIComponent(location.name)}`)
     }
 
     return (
